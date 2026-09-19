@@ -49,7 +49,11 @@ def route(
         False, description="Also route over crossings where no curb ramp could be verified."
     ),
 ) -> dict:
-    """Cheapest accessible route as GeoJSON, with a summary and per-segment warnings."""
+    """Cheapest accessible route as GeoJSON, with a summary and per-segment warnings.
+
+    ``standard`` is the plain shortest path over the same graph, described the same way, so a client can
+    show what the accessible route avoids. It is null only if the two points are not connected at all.
+    """
     engine: RouteEngine | None = app.state.engine
     if engine is None:
         raise HTTPException(503, "Routing graph not built. Run backend/scripts/attach_attributes.py.")
@@ -62,4 +66,9 @@ def route(
     except NoRoute as e:
         hint = "" if allow_unverified_crossings else " Try allow_unverified_crossings=true."
         raise HTTPException(404, f"{e}{hint}")
-    return {"route": result.feature_collection, "summary": result.summary, "snapped": result.snapped}
+    return {
+        "route": result.feature_collection,
+        "summary": result.summary,
+        "snapped": result.snapped,
+        "standard": result.standard,
+    }

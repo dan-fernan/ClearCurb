@@ -12,7 +12,8 @@ left out unless --include-buildings is passed.
 Elevations are in FEET (NAVD88). The DEMs from download_dem.py are in METERS.
 
 The area is the same as fetch_curbs.py (Manhattan CD1-3 NTAs, see lower_manhattan.py).
-Saved as GeoParquet (EPSG:4326), like download_ramps.py.
+Saved as GeoParquet (EPSG:4326), like download_ramps.py. Named "spot_points" so it does not overwrite
+fetch_network_data.py's elevation_points_lowermanhattan.parquet, which clean_data.py reads.
 
     python backend/scripts/download_elevation_points.py
 """
@@ -89,7 +90,7 @@ def main() -> None:
     in_box = len(gdf)
     gdf = gdf[gdf.within(area)].reset_index(drop=True)  # box -> neighborhood polygons
 
-    out = RAW_DIR / "elevation_points_lowermanhattan.parquet"
+    out = RAW_DIR / "elevation_spot_points_lowermanhattan.parquet"
     RAW_DIR.mkdir(parents=True, exist_ok=True)
     gdf.to_parquet(out)
     print(f"{in_box} points in bounding box, {len(gdf)} inside the neighborhoods -> {out}")
