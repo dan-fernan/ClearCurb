@@ -1,2 +1,6 @@
 fastapi>=0.115
 uvicorn[standard]>=0.30
+requests
+pandas
+geopandas
+pyarrow
