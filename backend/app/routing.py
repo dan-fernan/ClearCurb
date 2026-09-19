@@ -66,6 +66,9 @@ class Route:
     feature_collection: dict
     summary: dict
     snapped: dict
+    # The plain shortest path over the same graph, ignoring accessibility, described the same way:
+    # {"route": FeatureCollection, "summary": {...}}. Its warnings show what the accessible route avoids.
+    standard: dict | None = None
 
 
 @dataclass
@@ -122,6 +125,7 @@ class RouteEngine:
     def warm(self) -> None:
         for p in PROFILES.values():
             self._profile_graph(p)
+        self._standard_graph()
 
     # ---- snapping ------------------------------------------------------------------------------
     def _snap(self, pg: _ProfileGraph, lon: float, lat: float) -> tuple[int, float]:
@@ -158,16 +162,67 @@ class RouteEngine:
         except nx.NetworkXNoPath as exc:
             raise NoRoute("No route found for this profile.") from exc
 
-        features, counts, cost, length = [], Counter(), 0.0, 0.0
+        def accessible_step(a: int, b: int) -> tuple[int, bool]:
+            data = pg.graph[a][b]
+            return data["edge"], data["forward"]
+
+        feature_collection, summary, length = self._describe(path, accessible_step, profile)
+
+        # The standard route: what an ordinary walking map would give, ignoring ramps, grade and defects.
+        # Same graph, same snapped endpoints, and the same per-segment analysis, so the two are comparable.
+        standard = None
+        std_graph = self._standard_graph()
+        try:
+            std_path = nx.shortest_path(std_graph, s, t, weight="weight")
+        except nx.NetworkXNoPath:
+            std_path = None
+        if std_path:
+            def standard_step(a: int, b: int) -> tuple[int, bool]:
+                i = std_graph[a][b]["edge"]
+                return i, self._edge_attrs[i]["u"] == a
+
+            std_fc, std_summary, std_length = self._describe(std_path, standard_step, profile)
+            std_summary["detour_vs_shortest"] = 1.0
+            standard = {"route": std_fc, "summary": std_summary}
+            # How much longer than the plain shortest path?
+            summary["detour_vs_shortest"] = round(length / std_length, 2) if std_length > 0 else None
+
+        return Route(
+            feature_collection=feature_collection,
+            summary=summary,
+            snapped={
+                "start": {"lonlat": self._ll_point(s), "snap_distance_ft": round(s_dist)},
+                "end": {"lonlat": self._ll_point(t), "snap_distance_ft": round(t_dist)},
+            },
+            standard=standard,
+        )
+
+    def _standard_graph(self) -> nx.Graph:
+        """Every edge, weighted by length alone, keeping the shortest of any parallel edges."""
+        if "_standard" not in self._cache:
+            G = nx.Graph()
+            for i, e in enumerate(self._edge_attrs):
+                u, v, w = e["u"], e["v"], e["length_ft"]
+                if not G.has_edge(u, v) or w < G[u][v]["weight"]:
+                    G.add_edge(u, v, weight=w, edge=i)
+            self._cache["_standard"] = G
+        return self._cache["_standard"]
+
+    def _describe(self, path: list[int], step_edge, profile: Profile) -> tuple[dict, dict, float]:
+        """GeoJSON, summary and raw length (ft) for a node path.
+
+        ``step_edge(a, b)`` returns (edge index, whether the step travels that edge u -> v).
+        Warnings come from evaluate_edge, so an edge this profile cannot use is described as
+        "blocked: ..." (only possible on the standard route, which does not avoid blocked edges).
+        """
+        features, counts, length = [], Counter(), 0.0
         max_grade, ascent, uses_unverified = 0.0, 0.0, False
         for a, b in zip(path, path[1:]):
-            data = pg.graph[a][b]
-            e = self._edge_attrs[data["edge"]]
-            forward = data["forward"]
-            edge_cost, notes = evaluate_edge(e, profile, forward)
-            cost += edge_cost
+            i, forward = step_edge(a, b)
+            e = self._edge_attrs[i]
+            _, notes = evaluate_edge(e, profile, forward)
             length += e["length_ft"]
-            geom: LineString = self._geoms[data["edge"]]
+            geom: LineString = self._geoms[i]
             coords = list(geom.coords) if forward else list(geom.coords)[::-1]
             # Crossing lines stop 10-15 ft short of their corner nodes; join every edge end to its node.
             coords[0], coords[-1] = self._xy[a], self._xy[b]
@@ -186,11 +241,10 @@ class RouteEngine:
             features.append({
                 "type": "Feature",
                 "geometry": mapping(LineString([(round(x, 6), round(y, 6)) for x, y in ll])),
-                "properties": {"edge_type": e["edge_type"], "length_ft": round(e["length_ft"], 1),
+                "properties": {"edge_id": i, "edge_type": e["edge_type"], "length_ft": round(e["length_ft"], 1),
                                "warnings": notes},
             })
 
-        feature_collection = {"type": "FeatureCollection", "features": features}
         crossings = sum(1 for f in features if f["properties"]["edge_type"] == "crossing")
         summary = {
             "profile": profile.key,
@@ -204,24 +258,4 @@ class RouteEngine:
             "warning_counts": dict(counts),
             "detour_vs_shortest": None,
         }
-        # How much longer than the plain shortest path? Only meaningful against an all-passable baseline.
-        summary["detour_vs_shortest"] = self._detour(s, t, length)
-        return Route(
-            feature_collection=feature_collection,
-            summary=summary,
-            snapped={
-                "start": {"lonlat": self._ll_point(s), "snap_distance_ft": round(s_dist)},
-                "end": {"lonlat": self._ll_point(t), "snap_distance_ft": round(t_dist)},
-            },
-        )
-
-    def _detour(self, s: int, t: int, route_length: float) -> float | None:
-        if "_plain" not in self._cache:
-            G = nx.Graph()
-            G.add_weighted_edges_from((e["u"], e["v"], e["length_ft"]) for e in self._edge_attrs)
-            self._cache["_plain"] = G
-        try:
-            plain = nx.shortest_path_length(self._cache["_plain"], s, t, weight="weight")
-        except nx.NetworkXNoPath:
-            return None
-        return round(route_length / plain, 2) if plain > 0 else None
+        return {"type": "FeatureCollection", "features": features}, summary, length

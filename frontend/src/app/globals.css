@@ -1,49 +1,981 @@
+/* ClearCurb app styles, built on the Modernist tokens in modernist.css.
+   Rules of the system: zero radius, 2px rules between major sections, flush-left labels, one accent. */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html {
-  height: 100%;
+  --font-heading: var(--font-archivo), system-ui, sans-serif;
+  --font-body: var(--font-archivo), system-ui, sans-serif;
+  --ink-55: color-mix(in srgb, var(--color-text) 55%, transparent);
+  --ink-60: color-mix(in srgb, var(--color-text) 60%, transparent);
+  --rule: 2px solid var(--color-text);
 }
 
 html,
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
+  height: 100%;
+}
+body {
+  overflow: hidden;
 }
 
-body {
-  min-height: 100%;
+button {
+  font: inherit;
+  color: inherit;
+  border-radius: 0;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.cc-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── frame ──────────────────────────────────────────────────────────── */
+.cc-app {
+  height: 100dvh;
   display: flex;
   flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  border: var(--rule);
+  background: var(--color-bg);
+}
+.cc-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+.cc-rail {
+  flex: none;
+  width: 360px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+  border-right: var(--rule);
+}
+.cc-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
 }
 
-* {
-  box-sizing: border-box;
+/* ── top bar ────────────────────────────────────────────────────────── */
+.cc-top {
+  flex: none;
+  display: flex;
+  align-items: stretch;
+  border-bottom: var(--rule);
+}
+.cc-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px;
+  border-right: var(--rule);
+}
+.cc-wordmark {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.cc-chip {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 2px 6px;
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+.cc-field {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border: 0;
+  border-right: 1px solid var(--color-divider);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+.cc-field:hover {
+  background: var(--color-neutral-200);
+}
+.cc-field[aria-pressed="true"] {
+  background: var(--color-accent-100);
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+.cc-field__marker {
+  flex: none;
+  width: 10px;
+  height: 10px;
+}
+.cc-field__marker--from {
+  border: 2px solid var(--color-text);
+}
+.cc-field__marker--to {
+  background: var(--color-accent);
+}
+.cc-field__text {
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.cc-field__label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--ink-60);
+}
+.cc-field__value {
+  font-size: 14px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cc-field__hint {
+  font-size: 11px;
+  color: var(--ink-55);
+  white-space: nowrap;
+}
+.cc-top__mode {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 20px;
+}
+.cc-top__mode p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+.cc-cta {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 22px;
+  border: 0;
+  background: var(--color-accent);
+  color: var(--color-bg);
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+}
+.cc-cta:hover {
+  background: var(--color-accent-600);
+}
+.cc-cta:active {
+  background: var(--color-accent-700);
+}
+.cc-ground-btn {
+  flex: none;
+  padding: 0 24px;
+  border: 0;
+  border-left: var(--rule);
+  background: var(--color-bg);
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+}
+.cc-ground-btn:hover {
+  background: var(--color-neutral-200);
+}
+
+/* ── rail ───────────────────────────────────────────────────────────── */
+.cc-block {
+  padding: 18px 20px;
+  border-bottom: var(--rule);
+}
+.cc-block--flush {
   padding: 0;
+}
+.cc-block__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin: 16px 0 8px;
+}
+.cc-block__head:first-child {
+  margin-top: 0;
+}
+.cc-note {
+  font-size: 10px;
+  color: var(--ink-55);
+  text-align: right;
+}
+.cc-seg {
+  display: grid;
+  border: 1px solid var(--color-text);
+}
+.cc-seg__opt {
+  padding: 10px 6px 10px 10px;
+  border: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-align: left;
+  cursor: pointer;
+}
+.cc-seg__opt + .cc-seg__opt {
+  border-left: 1px solid var(--color-text);
+}
+.cc-seg__opt:hover {
+  background: var(--color-neutral-200);
+}
+.cc-seg__opt[aria-checked="true"] {
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+.cc-seg__opt:focus-visible {
+  outline-offset: -4px;
+}
+
+.cc-banner {
+  padding: 12px 20px;
+  font-size: 12px;
+  border-bottom: 1px solid var(--color-divider);
+  background: var(--color-accent-100);
+  color: var(--color-accent-800);
+}
+.cc-banner strong {
+  font-weight: 800;
+}
+
+.cc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.cc-list__row {
+  display: block;
+  width: 100%;
+  padding: 12px 20px;
+  border: 0;
+  border-top: 1px solid var(--color-divider);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+.cc-list li:first-child .cc-list__row {
+  border-top: 0;
+}
+.cc-list__row:hover {
+  background: var(--color-neutral-200);
+}
+.cc-list__row:focus-visible {
+  outline-offset: -2px;
+}
+.cc-list__inner {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.cc-list__title {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.cc-list__meta {
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--ink-55);
+}
+.cc-empty {
+  padding: 4px 20px 16px;
+  font-size: 12px;
+  color: var(--ink-60);
   margin: 0;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+/* Barrier markers: shape is a channel of its own, so colour is never the only signal. */
+.cc-mark {
+  flex: none;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-top: 3px;
+}
+.cc-mark--missing_ramp {
+  border-radius: 50%;
+  background: var(--color-accent-700);
+}
+.cc-mark--ramp_issue {
+  border-radius: 50%;
+  border: 3px solid var(--color-accent-700);
+  background: var(--color-bg);
+}
+.cc-mark--bad_sidewalk {
+  border: 3px solid var(--color-accent-600);
+  background: var(--color-bg);
+}
+.cc-mark--grade {
+  background: linear-gradient(90deg, var(--color-accent-200), var(--color-accent-700));
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+/* ── map column ─────────────────────────────────────────────────────── */
+.cc-mapwrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  background: var(--color-neutral-300);
+}
+/* Specific enough to beat maplibre-gl.css, which sets .maplibregl-map { position: relative } and would collapse this box. */
+.cc-mapwrap > .cc-map {
+  position: absolute;
+  inset: 0;
+}
+.cc-map--picking .maplibregl-canvas {
+  cursor: crosshair;
+}
+.cc-overlay {
+  position: absolute;
+  z-index: 2;
+}
+.cc-overlay--tl {
+  top: 16px;
+  left: 16px;
+  display: flex;
+  gap: 6px;
+}
+.cc-overlay--tr {
+  top: 16px;
+  right: 16px;
+}
+.cc-overlay--bl {
+  bottom: 16px;
+  left: 16px;
+}
+.cc-mapchip {
+  padding: 5px 8px;
+  border: 1px solid var(--color-text);
+  background: var(--color-bg);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+button.cc-mapchip {
+  cursor: pointer;
+}
+.cc-mapchip--ink,
+button.cc-mapchip[aria-pressed="true"] {
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+.cc-mapchip--accent {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-bg);
+}
+.cc-zoom {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-text);
+  background: var(--color-bg);
+}
+.cc-zoom button {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.cc-zoom button + button {
+  border-top: 1px solid var(--color-text);
+}
+.cc-zoom button:hover {
+  background: var(--color-neutral-200);
+}
+.cc-legend {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 8px 22px;
+  padding: 11px 13px;
+  border: 1px solid var(--color-text);
+  background: var(--color-bg);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.cc-legend__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cc-legend__swatch {
+  flex: none;
+  display: inline-block;
+}
+.cc-swatch--route {
+  width: 26px;
+  height: 6px;
+  background: var(--color-accent);
+}
+.cc-swatch--standard {
+  width: 26px;
+  height: 0;
+  border-top: 3px dashed var(--color-text);
+}
+.cc-swatch--grade {
+  width: 26px;
+  height: 6px;
+  background: linear-gradient(90deg, var(--color-accent-200), var(--color-accent-700));
+}
+.cc-swatch--ramp {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-accent-700);
+}
+.cc-swatch--ramp-issue {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 3px solid var(--color-accent-700);
+  background: var(--color-bg);
+}
+.cc-swatch--sidewalk {
+  width: 12px;
+  height: 12px;
+  border: 3px solid var(--color-accent-600);
+  background: var(--color-bg);
+}
+.cc-map-status {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 16px;
+  transform: translateX(-50%);
+}
+.maplibregl-ctrl-attrib {
+  font-family: var(--font-body);
+  border-radius: 0;
+}
+
+/* ── comparison band ────────────────────────────────────────────────── */
+.cc-band {
+  flex: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr 210px;
+  border-top: var(--rule);
+}
+.cc-band[aria-busy="true"] .cc-cell {
+  opacity: 0.55;
+}
+.cc-cell {
+  display: flex;
+  flex-direction: column;
+  padding: 18px 22px 20px;
+  min-width: 0;
+}
+.cc-cell--standard {
+  border-right: var(--rule);
+}
+.cc-cell--accessible {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+.cc-cell__key {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.cc-linekey {
+  display: inline-block;
+  width: 28px;
+  flex: none;
+}
+.cc-linekey--standard {
+  border-top: 3px dashed var(--color-text);
+}
+.cc-linekey--accessible {
+  border-top: 5px solid var(--color-bg);
+}
+.cc-headline {
+  margin-top: 6px;
+  font-size: 56px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.cc-headline small {
+  font-size: 20px;
+  letter-spacing: 0;
+  margin-left: 4px;
+}
+.cc-sub {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--ink-60);
+}
+.cc-cell--accessible .cc-sub {
+  color: inherit;
+}
+.cc-sub strong {
+  font-weight: 800;
+}
+.cc-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 2px solid var(--color-divider);
+}
+.cc-cell--accessible .cc-metrics {
+  border-top-color: color-mix(in srgb, var(--color-bg) 55%, transparent);
+}
+.cc-metric__label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-60);
+}
+.cc-cell--accessible .cc-metric__label {
+  color: inherit;
+}
+.cc-metric__value {
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--color-accent-700);
+}
+.cc-metric__value--none {
+  color: var(--ink-55);
+}
+.cc-cell--accessible .cc-metric__value {
+  color: var(--color-bg);
+}
+.cc-tradeoff {
+  display: flex;
+  flex-direction: column;
+  border-left: var(--rule);
+}
+.cc-tradeoff__body {
+  flex: 1;
+  padding: 18px 18px 16px;
+}
+.cc-tradeoff__body p {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.cc-start {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px 18px;
+  border: 0;
+  border-top: var(--rule);
+  background: var(--color-accent);
+  color: var(--color-bg);
+  font-weight: 800;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+.cc-start:hover:not(:disabled) {
+  background: var(--color-accent-600);
+}
+.cc-start:active:not(:disabled) {
+  background: var(--color-accent-700);
+}
+.cc-start:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.cc-statuscell {
+  grid-column: 1 / -1;
+  padding: 22px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-height: 150px;
+}
+.cc-statuscell h2 {
+  margin: 0;
+  font-size: 22px;
+}
+.cc-statuscell p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  max-width: 62ch;
+}
+.cc-statuscell button {
+  flex: none;
+  padding: 10px 16px;
+  border: 0;
+  background: var(--color-accent);
+  color: var(--color-bg);
+  font-weight: 800;
+  font-size: 13px;
+  cursor: pointer;
+}
+.cc-statuscell button:hover {
+  background: var(--color-accent-600);
+}
+.cc-statuscell--error {
+  border-left: 8px solid var(--color-accent);
+}
+
+/* ── report mode ────────────────────────────────────────────────────── */
+.cc-h-report {
+  font-size: 22px;
+  margin: 0 0 4px;
+}
+.cc-steps {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+.cc-steps li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 14px;
+}
+.cc-step {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 800;
+  border: 2px solid var(--color-text);
+}
+.cc-step--1 {
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+.cc-step--2 {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-bg);
+}
+.cc-report-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 20px;
+  border-top: 1px solid var(--color-divider);
+}
+.cc-report-row:first-child {
+  border-top: 0;
+}
+.cc-report-row__title {
+  font-size: 14px;
+  font-weight: 800;
+}
+.cc-status {
+  flex: none;
+  padding: 2px 8px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  border: 1px solid var(--color-divider);
+}
+.cc-bigcount {
+  margin-top: auto;
+  padding: 18px 20px;
+  border-top: var(--rule);
+  display: flex;
+  gap: 14px;
+  align-items: baseline;
+}
+.cc-bigcount strong {
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1;
+}
+.cc-bigcount span {
+  font-size: 13px;
+}
+
+.cc-popover {
+  position: absolute;
+  z-index: 3;
+  top: 28px;
+  right: 28px;
+  width: min(420px, calc(100% - 56px));
+  max-height: calc(100% - 56px);
+  overflow-y: auto;
+  border: var(--rule);
+  background: var(--color-bg);
+  box-shadow: var(--shadow-lg);
+}
+.cc-popover__head {
+  padding: 16px 18px;
+  border-bottom: var(--rule);
+}
+.cc-popover__head h2 {
+  margin: 4px 0 2px;
+  font-size: 24px;
+}
+.cc-popover__head p {
+  margin: 0;
+  font-size: 11px;
+  color: var(--ink-55);
+}
+.cc-cats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: var(--color-text);
+  border-bottom: 2px solid var(--color-text);
+}
+.cc-cat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  min-height: 76px;
+  padding: 12px;
+  border: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-align: left;
+  cursor: pointer;
+}
+.cc-cat:hover {
+  background: var(--color-neutral-200);
+}
+.cc-cat[aria-checked="true"] {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+.cc-cat:focus-visible {
+  outline-offset: -4px;
+}
+.cc-cat__selected {
+  min-height: 76px;
+  padding: 12px;
+  background: var(--color-bg);
+  font-size: 12px;
+  font-weight: 800;
+}
+.cc-cat__selected span {
+  display: block;
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--color-accent-700);
+}
+.cc-noterow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--color-divider);
+}
+.cc-noterow input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 14px;
+  color: var(--color-text);
+  caret-color: var(--color-accent);
+}
+.cc-noterow input::placeholder {
+  color: color-mix(in srgb, var(--color-text) 45%, transparent);
+}
+.cc-noterow input:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+}
+.cc-submit {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 16px 18px;
+  border: 0;
+  background: var(--color-accent);
+  color: var(--color-bg);
+  font-weight: 800;
+  font-size: 16px;
+  text-align: left;
+  cursor: pointer;
+}
+.cc-submit:hover:not(:disabled) {
+  background: var(--color-accent-600);
+}
+.cc-submit:active:not(:disabled) {
+  background: var(--color-accent-700);
+}
+.cc-submit:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.cc-submit small {
+  font-size: 11px;
+  font-weight: 600;
+}
+.cc-popover__foot {
+  margin: 0;
+  padding: 12px 18px;
+  font-size: 11px;
+  color: color-mix(in srgb, var(--color-text) 58%, transparent);
+}
+
+/* Draggable pin: concentric rings under a square pin (HTML element, MapLibre Marker). */
+.cc-pin {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  cursor: grab;
+}
+.cc-pin:active {
+  cursor: grabbing;
+}
+.cc-pin::before,
+.cc-pin::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 50%;
+  background: var(--color-accent);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.cc-pin::before {
+  width: 108px;
+  height: 108px;
+  opacity: 0.14;
+}
+.cc-pin::after {
+  width: 60px;
+  height: 60px;
+  opacity: 0.26;
+}
+.cc-pin__square {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--color-accent);
+  border: 3px solid var(--color-bg);
+  box-sizing: content-box;
+  margin: -3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
   }
+}
+
+/* The design is desktop-first. On narrow screens stack the rail above the map and let the page scroll. */
+@media (max-width: 960px) {
+  body {
+    overflow: auto;
+  }
+  .cc-app {
+    height: auto;
+    min-height: 100dvh;
+  }
+  .cc-top {
+    flex-wrap: wrap;
+  }
+  .cc-field {
+    flex: 1 1 100%;
+    border-right: 0;
+    border-top: 1px solid var(--color-divider);
+  }
+  .cc-body {
+    flex-direction: column;
+  }
+  .cc-rail {
+    width: auto;
+    border-right: 0;
+    border-bottom: var(--rule);
+    overflow: visible;
+  }
+  .cc-mapwrap {
+    min-height: 60dvh;
+  }
+  .cc-band {
+    grid-template-columns: 1fr;
+  }
+  .cc-cell--standard {
+    border-right: 0;
+    border-bottom: var(--rule);
+  }
+  .cc-tradeoff {
+    border-left: 0;
+    border-top: var(--rule);
+  }
+}
+
+/* ── map prompt bar + bottom-right zoom (report mode) ───────────────── */
+.cc-overlay--br {
+  bottom: 40px;
+  right: 16px;
+}
+.cc-pickbar {
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 8px 8px 14px;
+  border: 1px solid var(--color-text);
+  background: var(--color-text);
+  color: var(--color-bg);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.cc-pickbar button {
+  padding: 6px 10px;
+  border: 1px solid var(--color-bg);
+  background: transparent;
+  color: var(--color-bg);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.cc-pickbar button:hover:not(:disabled) {
+  background: var(--color-bg);
+  color: var(--color-text);
 }
