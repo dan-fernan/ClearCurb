@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/modernist-186b7d62-2ffb-4b4e-a0ad-0101b1b58c25/styles.css">
+<script src="_ds/modernist-186b7d62-2ffb-4b4e-a0ad-0101b1b58c25/_ds_bundle.js"></script>
+<style>
+  body { background: var(--color-bg); }
+  a { color: var(--color-accent); }
+  a:hover { color: var(--color-accent-700); }
+</style>
+</helmet>
+
+<section style="padding:48px; font-family:var(--font-body); color:var(--color-text); background:var(--color-bg)">
+
+  <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:24px; border-bottom:2px solid var(--color-divider); padding-bottom:16px; margin-bottom:8px">
+    <div>
+      <div style="font-size:12px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; color:var(--color-accent-700)">Turn 2 · 2a &amp; 2b</div>
+      <h1 style="font-size:44px; margin:6px 0 0">ClearCurb — desktop web app</h1>
+    </div>
+    <div style="font-size:13px; max-width:440px; color:color-mix(in srgb, var(--color-text) 62%, transparent)">
+      1440 × 900. Persistent left rail for inputs, map fills the frame, and the standard-vs-accessible comparison runs as a full-width band across the bottom of the map — the largest single element on the screen.
+    </div>
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:48px; padding-top:32px">
+
+    <!-- ══ 2a — MAIN APP + COMPARISON ══ -->
+    <div id="2a" style="display:flex; flex-direction:column; gap:12px">
+      <div style="display:flex; align-items:baseline; gap:10px">
+        <span style="font-size:11px; font-weight:800; letter-spacing:0.1em; background:var(--color-accent); color:var(--color-bg); padding:3px 7px">2A</span>
+        <span style="font-family:var(--font-heading); font-weight:800; font-size:13px; letter-spacing:0.08em; text-transform:uppercase">Plan &amp; compare</span>
+      </div>
+
+      <div style="width:1440px; height:900px; border:2px solid var(--color-text); background:var(--color-bg); display:flex; flex-direction:column; overflow:hidden">
+
+        <!-- top bar -->
+        <div style="display:flex; align-items:stretch; border-bottom:2px solid var(--color-text); flex:none">
+          <div style="display:flex; align-items:center; gap:10px; padding:0 20px; border-right:2px solid var(--color-text)">
+            <div style="font-family:var(--font-heading); font-weight:800; font-size:20px; letter-spacing:-0.02em">CLEARCURB</div>
+            <span style="font-size:10px; font-weight:800; letter-spacing:0.08em; padding:2px 6px; background:var(--color-text); color:var(--color-bg)">NYC</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:0; flex:1; min-width:0">
+            <div style="display:flex; align-items:center; gap:10px; padding:12px 16px; flex:1; min-width:0; border-right:1px solid var(--color-divider)">
+              <span style="width:10px; height:10px; border:2px solid var(--color-text); flex:none"></span>
+              <span style="font-size:10px; font-weight:800; letter-spacing:0.08em; color:color-mix(in srgb, var(--color-text) 60%, transparent)">FROM</span>
+              <span style="font-size:14px; font-weight:600">Union Square, E 14 St &amp; Broadway</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px; padding:12px 16px; flex:1; min-width:0; border-right:1px solid var(--color-divider)">
+              <span style="width:10px; height:10px; background:var(--color-accent); flex:none"></span>
+              <span style="font-size:10px; font-weight:800; letter-spacing:0.08em; color:color-mix(in srgb, var(--color-text) 60%, transparent)">TO</span>
+              <span style="font-size:14px; font-weight:600">Bellevue Hospital, 1 Av &amp; E 27 St</span>
+            </div>
+          </div>
+          <button style="display:flex; align-items:center; gap:8px; background:var(--color-accent); color:var(--color-bg); border:0; padding:0 22px; font-family:var(--font-heading); font-weight:800; font-size:14px; letter-spacing:0.03em; cursor:pointer" style-hover="background:var(--color-accent-600)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 3 L21 20 H3 Z"></path><line x1="12" y1="10" x2="12" y2="14"></line><line x1="12" y1="16.5" x2="12" y2="16.6"></line></svg>
+            REPORT A HAZARD
+          </button>
+        </div>
+
+        <div style="display:flex; flex:1; min-height:0">
+
+          <!-- left rail -->
+          <div style="width:360px; flex:none; border-right:2px solid var(--color-text); display:flex; flex-direction:column; overflow:hidden">
+            <div style="padding:18px 20px; border-bottom:2px solid var(--color-divider)">
+              <div style="font-size:10px; font-weight:800; letter-spacing:0.1em; margin-bottom:8px">MOBILITY PROFILE</div>
+              <div style="display:grid; grid-template-columns:1fr 1fr 1fr; border:1px solid var(--color-text)">
+                <button onClick="{{ setManual }}" style="{{ profManual }}">MANUAL CHAIR</button>
+                <button onClick="{{ setPower }}" style="{{ profPower }}">POWER CHAIR</button>
+                <button onClick="{{ setWalker }}" style="{{ profWalker }}">WALKER</button>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:baseline; margin:16px 0 8px">
+                <span style="font-size:10px; font-weight:800; letter-spacing:0.1em">ROUTING STRICTNESS</span>
+                <span style="font-size:10px; color:color-mix(in srgb, var(--color-text) 55%, transparent)">{{ strictNote }}</span>
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; border:1px solid var(--color-text)">
+                <button onClick="{{ setSoft }}" style="{{ softStyle }}">SOFT PENALTIES</button>
+                <button onClick="{{ setHard }}" style="{{ hardStyle }}">HARD CONSTRAINTS</button>
+              </div>
+              <div style="display:flex; gap:14px; margin-top:14px; font-size:11px; color:color-mix(in srgb, var(--color-text) 60%, transparent)">
+                <span>Max grade 5.0%</span><span>Min width 36 in</span><span>Curb ramp required</span>
+              </div>
+            </div>
+
+            <div style="padding:18px 20px; border-bottom:2px solid var(--color-divider)">
+              <div style="font-size:10px; font-weight:800; letter-spacing:0.1em; margin-bottom:12px">THE ACCESSIBLE ROUTE AVOIDS</div>
+              <div style="display:flex; flex-direction:column; gap:12px">
+                <div style="display:flex; gap:11px; align-items:flex-start">
+                  <span style="width:12px; height:12px; border-radius:50%; background:var(--color-accent-700); margin-top:4px; flex:none"></span>
+                  <div>
+                    <div style="font-size:14px; font-weight:600">No curb ramp — E 18 St &amp; 3 Av</div>
+                    <div style="font-size:11px; color:color-mix(in srgb, var(--color-text) 55%, transparent)">SE corner · DOT survey, Mar 2026</div>
+                  </div>
+                </div>
+                <div style="display:flex; gap:11px; align-items:flex-start">
+                  <span style="width:12px; height:12px; border-radius:50%; background:var(--color-accent-700); margin-top:4px; flex:none"></span>
+                  <div>
+                    <div style="font-size:14px; font-weight:600">No curb ramp — E 23 St &amp; 2 Av</div>
+                    <div style="font-size:11px; color:color-mix(in srgb, var(--color-text) 55%, transparent)">NW corner · DOT survey, Mar 2026</div>
+                  </div>
+                </div>
+                <div style="display:flex; gap:11px; align-items:flex-start">
+                  <span style="width:12px; height:12px; border:3px solid var(--color-accent-600); background:var(--color-bg); margin-top:4px; flex:none"></span>
+                  <div>
+                    <div style="font-size:14px; font-weight:600">Broken sidewalk — 3 Av, E 19–20 St</div>
+                    <div style="font-size:11px; color:color-mix(in srgb, var(--color-text) 55%, transparent)">311 complaints ×4 · 2 user reports</div>
+                  </div>
+                </div>
+                <div style="display:flex; gap:11px; align-items:flex-start">
+                  <span style="width:12px; height:12px; background:linear-gradient(90deg, var(--color-accent-200), var(--color-accent-700)); margin-top:4px; flex:none"></span>
+                  <div>
+                    <div style="font-size:14px; font-weight:600">9.0% grade — E 20 St bridge approach</div>
+                    <div style="font-size:11px; color:color-mix(in srgb, var(--color-text) 55%, transparent)">LiDAR DEM · 1 ft resolution</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="padding:18px 20px; margin-top:auto">
+              <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px">
+                <span style="font-size:10px; font-weight:800; letter-spacing:0.1em">DATA CONFIDENCE</span>
+                <span style="font-size:11px; font-weight:800; color:var(--color-accent-700)">38% UNINSPECTED</span>
+              </div>
+              <div style="display:flex; height:14px; border:1px solid var(--color-text)">
+                <div style="width:57%; background:var(--color-accent)"></div>
+                <div style="width:38%; background:repeating-linear-gradient(45deg, var(--color-neutral-600) 0 4px, var(--color-neutral-100) 4px 8px)"></div>
+                <div style="width:5%; background:var(--color-text)"></div>
+              </div>
+              <div style="font-size:11px; line-height:1.4; margin-top:9px; color:color-mix(in srgb, var(--color-text) 62%, transparent)">
+                Hatched segments have no inspection record. They are unverified, not cleared.
+              </div>
+            </div>
+          </div>
+
+          <!-- map + comparison band -->
+          <div style="flex:1; min-width:0; display:flex; flex-direction:column">
+            <div style="position:relative; flex:1; min-height:0; background:var(--color-neutral-300); overflow:hidden">
+              <svg viewBox="0 0 1080 560" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" style="display:block">
+                <defs>
+                  <linearGradient id="gradeline2" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="var(--color-accent-200)"></stop>
+                    <stop offset="100%" stop-color="var(--color-accent-700)"></stop>
+                  </linearGradient>
+                  <pattern id="unknownhatch2" width="8" height="8" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+                    <rect width="8" height="8" fill="var(--color-neutral-100)"></rect>
+                    <line x1="0" y1="0" x2="0" y2="8" stroke="var(--color-neutral-600)" stroke-width="4"></line>
+                  </pattern>
+                </defs>
+                <rect x="0" y="0" width="1080" height="560" fill="var(--color-neutral-300)"></rect>
+                <rect x="690" y="300" width="160" height="130" fill="var(--color-neutral-400)"></rect>
+                <g stroke="var(--color-neutral-100)" stroke-width="12">
+                  <line x1="120" y1="0" x2="120" y2="560"></line><line x1="310" y1="0" x2="310" y2="560"></line><line x1="500" y1="0" x2="500" y2="560"></line><line x1="690" y1="0" x2="690" y2="560"></line><line x1="880" y1="0" x2="880" y2="560"></line><line x1="1050" y1="0" x2="1050" y2="560"></line>
+                </g>
+                <g stroke="var(--color-neutral-100)" stroke-width="6">
+                  <line x1="0" y1="70" x2="1080" y2="70"></line><line x1="0" y1="160" x2="1080" y2="160"></line><line x1="0" y1="250" x2="1080" y2="250"></line><line x1="0" y1="340" x2="1080" y2="340"></line><line x1="0" y1="430" x2="1080" y2="430"></line><line x1="0" y1="510" x2="1080" y2="510"></line>
+                </g>
+                <line x1="-20" y1="540" x2="700" y2="0" stroke="var(--color-neutral-100)" stroke-width="9"></line>
+                <path d="M120,430 L120,250 L500,250 L500,70 L880,70" fill="none" stroke="var(--color-text)" stroke-width="6" stroke-dasharray="14 9"></path>
+                <path d="M120,250 L500,250" fill="none" stroke="url(#gradeline2)" stroke-width="16" opacity="0.5"></path>
+                <path d="M120,430 L310,430 L310,340 L690,340 L690,160 L880,160 L880,70" fill="none" stroke="var(--color-accent)" stroke-width="8"></path>
+                <path d="M310,340 L690,340" fill="none" stroke="url(#unknownhatch2)" stroke-width="8"></path>
+                <g>
+                  <circle cx="120" cy="250" r="9" fill="var(--color-accent-700)" stroke="var(--color-bg)" stroke-width="3"></circle>
+                  <circle cx="500" cy="250" r="9" fill="var(--color-accent-700)" stroke="var(--color-bg)" stroke-width="3"></circle>
+                  <circle cx="500" cy="70" r="9" fill="var(--color-accent-700)" stroke="var(--color-bg)" stroke-width="3"></circle>
+                  <rect x="294" y="243" width="16" height="16" fill="var(--color-bg)" stroke="var(--color-accent-600)" stroke-width="4"></rect>
+                  <rect x="682" y="62" width="16" height="16" fill="var(--color-bg)" stroke="var(--color-accent-600)" stroke-width="4"></rect>
+                </g>
+                <circle cx="120" cy="430" r="9" fill="none" stroke="var(--color-text)" stroke-width="4"></circle>
+                <rect x="870" y="60" width="18" height="18" fill="var(--color-accent)"></rect>
+              </svg>
+
+              <div style="position:absolute; top:16px; left:20px; display:flex; gap:8px">
+                <div style="background:var(--color-bg); border:1px solid var(--color-text); padding:7px 10px; font-size:10px; font-weight:800; letter-spacing:0.08em">MANHATTAN · GRAMERCY — KIPS BAY</div>
+                <div style="background:var(--color-text); color:var(--color-bg); padding:7px 10px; font-size:10px; font-weight:800; letter-spacing:0.08em">BARRIER OVERLAY ON</div>
+              </div>
+
+              <div style="position:absolute; top:16px; right:20px; display:flex; flex-direction:column; gap:8px; align-items:flex-end">
+                <div style="display:flex; flex-direction:column; border:1px solid var(--color-text); background:var(--color-bg)">
+                  <div style="width:38px; height:38px; display:flex; align-items:center; justify-content:center; font-size:19px; font-weight:800; border-bottom:1px solid var(--color-divider)">+</div>
+                  <div style="width:38px; height:38px; display:flex; align-items:center; justify-content:center; font-size:19px; font-weight:800">−</div>
+                </div>
+              </div>
+
+              <div style="position:absolute; left:20px; bottom:18px; background:var(--color-bg); border:1px solid var(--color-text); padding:11px 13px; display:grid; grid-template-columns:auto auto; gap:8px 22px">
+                <div style="display:flex; align-items:center; gap:9px; font-size:10px; font-weight:800; letter-spacing:0.06em"><span style="width:26px; height:0; border-top:5px dashed var(--color-text)"></span>STANDARD ROUTE</div>
+                <div style="display:flex; align-items:center; gap:9px; font-size:10px; font-weight:800; letter-spacing:0.06em"><span style="width:26px; height:6px; background:var(--color-accent)"></span>ACCESSIBLE ROUTE</div>
+                <div style="display:flex; align-items:center; gap:9px; font-size:10px; font-weight:800; letter-spacing:0.06em"><span style="width:12px; height:12px; border-radius:50%; background:var(--color-accent-700)"></span>MISSING CURB RAMP</div>
+                <div style="display:flex; align-items:center; gap:9px; font-size:10px; font-weight:800; letter-spacing:0.06em"><span style="width:12px; height:12px; border:3px solid var(--color-accent-600)"></span>BAD SIDEWALK</div>
+                <div style="display:flex; align-items:center; gap:9px; font-size:10px; font-weight:800; letter-spacing:0.06em"><span style="width:26px; height:6px; background:linear-gradient(90deg, var(--color-accent-200), var(--color-accent-700))"></span>GRADE SEVERITY</div>
+                <div style="display:flex; align-items:center; gap:9px; font-size:10px; font-weight:800; letter-spacing:0.06em"><span style="width:26px; height:6px; background:repeating-linear-gradient(45deg, var(--color-neutral-600) 0 3px, var(--color-neutral-100) 3px 6px)"></span>NO INSPECTION DATA</div>
+              </div>
+            </div>
+
+            <!-- comparison band -->
+            <div style="flex:none; border-top:2px solid var(--color-text); display:grid; grid-template-columns:1fr 1fr 210px">
+              <div style="padding:18px 22px 20px; border-right:2px solid var(--color-text)">
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px">
+                  <span style="width:28px; height:0; border-top:5px dashed var(--color-text)"></span>
+                  <span style="font-size:11px; font-weight:800; letter-spacing:0.1em">STANDARD ROUTE</span>
+                </div>
+                <div style="display:flex; align-items:baseline; gap:18px">
+                  <div style="font-family:var(--font-heading); font-weight:800; font-size:56px; line-height:1">18<span style="font-size:20px"> min</span></div>
+                  <div style="font-size:12px; color:color-mix(in srgb, var(--color-text) 58%, transparent)">0.9 mi · 14 crossings</div>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px; margin-top:16px; border-top:2px solid var(--color-divider); padding-top:14px">
+                  <div>
+                    <div style="font-size:10px; font-weight:800; letter-spacing:0.08em; color:color-mix(in srgb, var(--color-text) 60%, transparent)">MISSING CURB CUTS</div>
+                    <div style="font-family:var(--font-heading); font-weight:800; font-size:30px; color:var(--color-accent-700); line-height:1.1">3</div>
+                  </div>
+                  <div>
+                    <div style="font-size:10px; font-weight:800; letter-spacing:0.08em; color:color-mix(in srgb, var(--color-text) 60%, transparent)">MAX GRADE</div>
+                    <div style="font-family:var(--font-heading); font-weight:800; font-size:30px; color:var(--color-accent-700); line-height:1.1">9.0%</div>
+                  </div>
+                  <div>
+                    <div style="font-size:10px; font-weight:800; letter-spacing:0.08em; color:color-mix(in srgb, var(--color-text) 60%, transparent)">POOR SIDEWALK</div>
+                    <div style="font-family:var(--font-heading); font-weight:800; font-size:30px; color:var(--color-accent-700); line-height:1.1">2</div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="padding:18px 22px 20px; background:var(--color-accent); color:var(--color-bg)">
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px">
+                  <span style="width:28px; height:0; border-top:5px solid var(--color-bg)"></span>
+                  <span style="font-size:11px; font-weight:800; letter-spacing:0.1em">ACCESSIBLE ROUTE</span>
+                </div>
+                <div style="display:flex; align-items:baseline; gap:18px">
+                  <div style="font-family:var(--font-heading); font-weight:800; font-size:56px; line-height:1">24<span style="font-size:20px"> min</span></div>
+                  <div style="font-size:12px">1.1 mi · 16 crossings · <strong>+6 min</strong></div>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px; margin-top:16px; border-top:2px solid var(--color-bg); padding-top:14px">
+                  <div>
+                    <div style="font-size:10px; font-weight:800; letter-spacing:0.08em">MISSING CURB CUTS</div>
+                    <div style="font-family:var(--font-heading); font-weight:800; font-size:30px; line-height:1.1">0</div>
+                  </div>
+                  <div>
+                    <div style="font-size:10px; font-weight:800; letter-spacing:0.08em">MAX GRADE</div>
+                    <div style="font-family:var(--font-heading); font-weight:800; font-size:30px; line-height:1.1">4.2%</div>
+                  </div>
+                  <div>
+                    <div style="font-size:10px; font-weight:800; letter-spacing:0.08em">POOR SIDEWALK</div>
+                    <div style="font-family:var(--font-heading); font-weight:800; font-size:30px; line-height:1.1">0</div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="border-left:2px solid var(--color-text); display:flex; flex-direction:column">
+                <div style="padding:14px 16px; flex:1">
+                  <div style="font-size:10px; font-weight:800; letter-spacing:0.08em; color:color-mix(in srgb, var(--color-text) 60%, transparent)">TRADE-OFF</div>
+                  <div style="font-size:13px; line-height:1.35; margin-top:6px">Six minutes longer, three fewer barriers you cannot cross.</div>
+                </div>
+                <button style="background:var(--color-accent); color:var(--color-bg); border:0; border-top:2px solid var(--color-text); padding:16px; font-family:var(--font-heading); font-weight:800; font-size:14px; text-align:left; cursor:pointer" style-hover="background:var(--color-accent-600)">START ACCESSIBLE</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 2b — REPORT + CONFIDENCE ══ -->
+    <div id="2b" style="display:flex; flex-direction:column; gap:12px">
+      <div style="display:flex; align-items:baseline; gap:10px">
+        <span style="font-size:11px; font-weight:800; letter-spacing:0.1em; background:var(--color-accent); color:var(--color-bg); padding:3px 7px">2B</span>
+        <span style="font-family:var(--font-heading); font-weight:800; font-size:13px; letter-spacing:0.08em; text-transform:uppercase">Report a hazard</span>
+      </div>
+
+      <div style="width:1440px; height:900px; border:2px solid var(--color-text); background:var(--color-bg); display:flex; flex-direction:column; overflow:hidden">
+
+        <div style="display:flex; align-items:stretch; border-bottom:2px solid var(--color-text); flex:none">
+          <div style="display:flex; align-items:center; gap:10px; padding:0 20px; border-right:2px solid var(--color-text)">
+            <div style="font-family:var(--font-heading); font-weight:800; font-size:20px; letter-spacing:-0.02em">CLEARCURB</div>
+            <span style="font-size:10px; font-weight:800; letter-spacing:0.08em; padding:2px 6px; background:var(--color-text); color:var(--color-bg)">NYC</span>
+          </div>
+          <div style="display:flex; align-items:center; padding:12px 18px; gap:16px; flex:1">
+            <span style="font-size:10px; font-weight:800; letter-spacing:0.1em; color:color-mix(in srgb, var(--color-text) 60%, transparent)">REPORT MODE</span>
+            <span style="font-size:14px; font-weight:600">Click the map to place the hazard — Esc to cancel</span>
+          </div>
+          <button style="display:flex; align-items:center; padding:0 22px; background:var(--color-bg); border:0; border-left:2px solid var(--color-text); font-family:var(--font-heading); font-weight:800; font-size:14px; cursor:pointer" style-hover="background:var(--color-neutral-200)">CANCEL</button>
+        </div>
+
+        <div style="display:flex; flex:1; min-height:0">
+
+          <!-- left rail: reporting -->
+          <div style="width:360px; flex:none; border-right:2px solid var(--color-text); display:flex; flex-direction:column; overflow:hidden">
+            <div style="padding:18px 20px; border-bottom:2px solid var(--color-divider)">
+              <div style="font-family:var(--font-heading); font-weight:800; font-size:22px; line-height:1.1">Report a hazard</div>
+              <div style="font-size:12px; color:color-mix(in srgb, var(--color-text) 60%, transparent); margin-top:4px">Three steps, about ten seconds.</div>
+              <div style="display:flex; flex-direction:column; gap:12px; margin-top:16px">
+                <div style="display:flex; gap:12px; align-items:flex-start">
+                  <span style="width:22px; height:22px; background:var(--color-text); color:var(--color-bg); font-family:var(--font-heading); font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center; flex:none">1</span>
+                  <div style="font-size:14px; line-height:1.35">Click the map to drop a pin, or drag an existing one.</div>
+                </div>
+                <div style="display:flex; gap:12px; align-items:flex-start">
+                  <span style="width:22px; height:22px; background:var(--color-accent); color:var(--color-bg); font-family:var(--font-heading); font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center; flex:none">2</span>
+                  <div style="font-size:14px; line-height:1.35">Pick a category. A note and photo are optional.</div>
+                </div>
+                <div style="display:flex; gap:12px; align-items:flex-start">
+                  <span style="width:22px; height:22px; border:2px solid var(--color-text); font-family:var(--font-heading); font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center; flex:none">3</span>
+                  <div style="font-size:14px; line-height:1.35">Submit. Routing picks it up on the next request.</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="padding:16px 20px 6px">
+              <div style="display:flex; justify-content:space-between; align-items:baseline">
+                <span style="font-size:10px; font-weight:800; letter-spacing:0.1em">REPORTS NEARBY</span>
+                <span style="font-size:11px; color:color-mix(in srgb, var(--color-text) 55%, transparent)">Last 30 days</span>
+              </div>
+            </div>
+            <div style="padding:0 20px 18px">
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; padding:13px 0; border-bottom:1px solid var(--color-divider)">
+                <div>
+                  <div style="font-family:var(--font-heading); font-weight:800; font-size:14px">Broken sidewalk · 3 Av, E 19–20 St</div>
+                  <div style="font-size:11px; color:color-mix(in srgb, var(--color-text) 55%, transparent)">2 reports · 4 days ago</div>
+                </div>
+                <span style="font-size:10px; font-weight:800; letter-spacing:0.06em; padding:3px 7px; background:var(--color-accent); color:var(--color-bg); flex:none">ACTIVE</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; padding:13px 0; border-bottom:1px solid var(--color-divider)">
+                <div>
+                  <div style="font-family:var(--font-heading); font-weight:800; font-size:14px">Construction · E 23 St &amp; 2 Av</div>
+                  <div style="font-size:11px; color:color-mix(in srgb, var(--color-text) 55%, transparent)">1 report · 11 days ago</div>
+                </div>
+                <span style="font-size:10px; font-weight:800; letter-spacing:0.06em; padding:3px 7px; border:1px solid var(--color-divider); flex:none">UNVERIFIED</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; padding:13px 0; border-bottom:1px solid var(--color-divider)">
+                <div>
+                  <div style="font-family:var(--font-heading); font-weight:800; font-size:14px">Obstruction · E 18 St, scaffold</div>
+                  <div style="font-size:11px; color:color-mix(in srgb, var(--color-text) 55%, transparent)">Cleared by DOT · 19 days ago</div>
+                </div>
+                <span style="font-size:10px; font-weight:800; letter-spacing:0.06em; padding:3px 7px; border:1px solid var(--color-divider); color:color-mix(in srgb, var(--color-text) 55%, transparent); flex:none">RESOLVED</span>
+              </div>
+            </div>
+
+            <div style="margin-top:auto; padding:18px 20px; border-top:2px solid var(--color-divider); display:flex; gap:14px; align-items:center">
+              <div style="font-family:var(--font-heading); font-weight:800; font-size:34px; line-height:1">27</div>
+              <div style="font-size:12px; line-height:1.35">reports you have filed. 19 of them now change how routes are drawn.</div>
+            </div>
+          </div>
+
+          <!-- map with report popover -->
+          <div style="flex:1; min-width:0; position:relative; background:var(--color-neutral-300); overflow:hidden">
+            <svg viewBox="0 0 1080 830" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" style="display:block">
+              <defs>
+                <pattern id="unknownhatch3" width="8" height="8" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+                  <rect width="8" height="8" fill="var(--color-neutral-100)"></rect>
+                  <line x1="0" y1="0" x2="0" y2="8" stroke="var(--color-neutral-600)" stroke-width="4"></line>
+                </pattern>
+              </defs>
+              <rect x="0" y="0" width="1080" height="830" fill="var(--color-neutral-300)"></rect>
+              <rect x="700" y="500" width="180" height="150" fill="var(--color-neutral-400)"></rect>
+              <g stroke="var(--color-neutral-100)" stroke-width="12">
+                <line x1="130" y1="0" x2="130" y2="830"></line><line x1="330" y1="0" x2="330" y2="830"></line><line x1="530" y1="0" x2="530" y2="830"></line><line x1="730" y1="0" x2="730" y2="830"></line><line x1="930" y1="0" x2="930" y2="830"></line>
+              </g>
+              <g stroke="var(--color-neutral-100)" stroke-width="6">
+                <line x1="0" y1="110" x2="1080" y2="110"></line><line x1="0" y1="240" x2="1080" y2="240"></line><line x1="0" y1="370" x2="1080" y2="370"></line><line x1="0" y1="500" x2="1080" y2="500"></line><line x1="0" y1="630" x2="1080" y2="630"></line><line x1="0" y1="760" x2="1080" y2="760"></line>
+              </g>
+              <path d="M130,630 L330,630 L330,500" fill="none" stroke="var(--color-accent)" stroke-width="9"></path>
+              <path d="M330,500 L530,500 L530,370" fill="none" stroke="var(--color-accent)" stroke-width="9"></path>
+              <circle cx="530" cy="500" r="10" fill="var(--color-accent-700)" stroke="var(--color-bg)" stroke-width="3"></circle>
+              <rect x="722" y="232" width="18" height="18" fill="var(--color-bg)" stroke="var(--color-accent-600)" stroke-width="4"></rect>
+              <path d="M530,370 L730,370 L730,240" fill="none" stroke="var(--color-accent)" stroke-width="9"></path>
+              <circle cx="330" cy="500" r="7" fill="var(--color-bg)" stroke="var(--color-text)" stroke-width="4"></circle>
+              <circle cx="530" cy="370" r="7" fill="var(--color-bg)" stroke="var(--color-text)" stroke-width="4"></circle>
+              <circle cx="330" cy="240" r="54" fill="var(--color-accent)" opacity="0.14"></circle>
+              <circle cx="330" cy="240" r="30" fill="var(--color-accent)" opacity="0.26"></circle>
+              <rect x="320" y="230" width="20" height="20" fill="var(--color-accent)" stroke="var(--color-bg)" stroke-width="3"></rect>
+            </svg>
+
+            <div style="position:absolute; left:24px; bottom:20px; background:var(--color-bg); border:1px solid var(--color-text); padding:11px 13px; display:flex; flex-direction:column; gap:8px">
+              <div style="display:flex; align-items:center; gap:9px; font-size:10px; font-weight:800; letter-spacing:0.06em"><span style="width:26px; height:6px; background:var(--color-accent)"></span>YOUR ROUTE</div>
+              <div style="display:flex; align-items:center; gap:9px; font-size:10px; font-weight:800; letter-spacing:0.06em"><span style="width:12px; height:12px; border-radius:50%; background:var(--color-accent-700)"></span>EXISTING REPORT</div>
+              <div style="display:flex; align-items:center; gap:9px; font-size:10px; font-weight:800; letter-spacing:0.06em"><span style="width:12px; height:12px; border:3px solid var(--color-accent-600)"></span>UNVERIFIED REPORT</div>
+            </div>
+
+            <!-- report popover -->
+            <div style="position:absolute; right:28px; top:28px; width:420px; background:var(--color-bg); border:2px solid var(--color-text); box-shadow:var(--shadow-lg); display:flex; flex-direction:column">
+              <div style="padding:16px 18px; border-bottom:2px solid var(--color-text)">
+                <div style="font-size:10px; font-weight:800; letter-spacing:0.1em; color:color-mix(in srgb, var(--color-text) 60%, transparent)">REPORTING AT</div>
+                <div style="font-family:var(--font-heading); font-weight:800; font-size:24px; line-height:1.1; margin-top:4px">E 14 St &amp; 3 Av<span style="color:var(--color-accent)"> · SE corner</span></div>
+                <div style="font-size:11px; color:color-mix(in srgb, var(--color-text) 55%, transparent); margin-top:4px">40.7331, −73.9865 · drag the pin to adjust</div>
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:2px; background:var(--color-text); border-bottom:2px solid var(--color-text)">
+                <button onClick="{{ pickSidewalk }}" style="{{ catSidewalk }}">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18 L9 6 L15 18 L21 9"></path></svg>
+                  <span>BROKEN SIDEWALK</span>
+                </button>
+                <button onClick="{{ pickRamp }}" style="{{ catRamp }}">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 19 H21"></path><path d="M6 19 L18 7"></path><path d="M12 5 v6"></path></svg>
+                  <span>MISSING RAMP</span>
+                </button>
+                <button onClick="{{ pickIncline }}" style="{{ catIncline }}">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 20 L20 4"></path><path d="M3 20 H20 V4"></path></svg>
+                  <span>STEEP INCLINE</span>
+                </button>
+                <button onClick="{{ pickObstruction }}" style="{{ catObstruction }}">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16"></rect><line x1="4" y1="20" x2="20" y2="4"></line></svg>
+                  <span>OBSTRUCTION</span>
+                </button>
+                <button onClick="{{ pickConstruction }}" style="{{ catConstruction }}">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 L21 20 H3 Z"></path><line x1="12" y1="10" x2="12" y2="15"></line><line x1="12" y1="17.5" x2="12" y2="17.6"></line></svg>
+                  <span>CONSTRUCTION</span>
+                </button>
+                <div style="background:var(--color-bg); padding:12px; display:flex; flex-direction:column; justify-content:center; gap:3px">
+                  <div style="font-size:10px; font-weight:800; letter-spacing:0.08em; color:color-mix(in srgb, var(--color-text) 60%, transparent)">SELECTED</div>
+                  <div style="font-family:var(--font-heading); font-weight:800; font-size:15px; line-height:1.15">{{ catLabel }}</div>
+                </div>
+              </div>
+              <div style="padding:14px 18px; display:flex; align-items:center; gap:12px; border-bottom:1px solid var(--color-divider)">
+                <span style="font-size:10px; font-weight:800; letter-spacing:0.08em; color:color-mix(in srgb, var(--color-text) 60%, transparent)">NOTE</span>
+                <span style="font-size:14px; color:color-mix(in srgb, var(--color-text) 45%, transparent); flex:1">Optional — one line</span>
+                <span style="font-size:11px; font-weight:800; color:var(--color-accent-700)">+ PHOTO</span>
+              </div>
+              <div style="display:grid; grid-template-columns:1fr auto">
+                <button style="display:flex; align-items:center; justify-content:space-between; background:var(--color-accent); color:var(--color-bg); border:0; padding:17px 18px; font-family:var(--font-heading); font-weight:800; font-size:16px; cursor:pointer" style-hover="background:var(--color-accent-600)">
+                  <span>SUBMIT REPORT</span>
+                  <span style="font-size:11px; font-weight:600; letter-spacing:0.04em">⏎ ENTER</span>
+                </button>
+              </div>
+              <div style="padding:11px 18px 14px; font-size:11px; line-height:1.4; color:color-mix(in srgb, var(--color-text) 58%, transparent)">
+                Live for other users immediately; flagged unverified until a second report or a DOT inspection confirms it.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section style="padding:48px; font-family:var(--font-body); color:var(--color-text); background:var(--color-bg)">
+
+  <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:24px; border-bottom:2px solid var(--color-divider); padding-bottom:16px; margin-bottom:8px">
+    <div>
+      <div style="font-size:12px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; color:var(--color-accent-700)">Turn 1 · 1a</div>
+      <h1 style="font-size:44px; margin:6px 0 0">ClearCurb — accessible route planner</h1>
+    </div>
+    <div style="font-size:13px; max-width:420px; text-align:left; color:color-mix(in srgb, var(--color-text) 62%, transparent)">
+      Four screens, 390&nbsp;×&nbsp;844. Standard route in ink, accessible route in red, barriers and data confidence encoded on the map itself.
+    </div>
+  </div>
+
+  <div style="display:flex; gap:40px; align-items:flex-start; flex-wrap:wrap; padding-top:32px">
+
+    <!-- ══ SCREEN 1 — MAP ══ -->
+    <div style="display:flex; flex-direction:column; gap:12px">
+      <div style="display:flex; align-items:baseline; gap:10px">
+        <span style="font-family:var(--font-heading); font-weight:800; font-size:13px; letter-spacing:0.08em; text-transform:uppercase">01 — Map &amp; controls</span>
+      </div>
+      <div style="width:390px; height:844px; border:2px solid var(--color-text); background:var(--color-bg); display:flex; flex-direction:column; overflow:hidden; position:relative">
+
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 16px 6px; font-size:11px; font-weight:600; letter-spacing:0.04em">
+          <span>9:41</span><span>NYC · LIVE DATA</span>
+        </div>
+
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:6px 16px 12px; border-bottom:2px solid var(--color-divider)">
+          <div style="font-family:var(--font-heading); font-weight:800; font-size:20px; letter-spacing:-0.02em">CLEARCURB</div>
+          <div style="display:flex; gap:6px; align-items:center">
+            <span style="font-size:10px; font-weight:800; letter-spacing:0.08em; padding:3px 6px; background:var(--color-text); color:var(--color-bg)">BETA</span>
+            <div style="width:32px; height:32px; border:1px solid var(--color-divider); display:flex; align-items:center; justify-content:center">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="7" x2="20" y2="7"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="17" x2="14" y2="17"></line></svg>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding:12px 16px; display:flex; flex-direction:column; gap:8px; border-bottom:2px solid var(--color-divider)">
+          <div style="display:flex; align-items:center; gap:10px; border:1px solid var(--color-divider); padding:9px 12px; background:var(--color-neutral-100)">
+            <span style="width:10px; height:10px; border:2px solid var(--color-text); display:block"></span>
+            <span style="font-size:10px; font-weight:800; letter-spacing:0.08em; width:34px">FROM</span>
+            <span style="font-size:14px; font-weight:600">Union Sq, E 14 St</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px; border:1px solid var(--color-text); padding:9px 12px; background:var(--color-bg)">
+            <span style="width:10px; height:10px; background:var(--color-accent); display:block"></span>
+            <span style="font-size:10px; font-weight:800; letter-spacing:0.08em; width:34px">TO</span>
+            <span style="font-size:14px; font-weight:600">Bellevue, 1 Av &amp; E 27 St</span>
+          </div>
+          <div style="font-size:11px; color:color-mix(in srgb, var(--color-text) 55%, transparent)">Or tap any point on the map to set an endpoint.</div>
+        </div>
+
+        <div style="position:relative; flex:1; overflow:hidden; background:var(--color-neutral-300)">
+          <svg viewBox="0 0 390 480" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" style="display:block">
+            <rect x="0" y="0" width="390" height="480" fill="var(--color-neutral-300)"></rect>
+            <rect x="248" y="228" width="62" height="64" fill="var(--color-neutral-400)"></rect>
+            <g stroke="var(--color-neutral-100)" stroke-width="9">
+              <line x1="30" y1="0" x2="30" y2="480"></line><line x1="100" y1="0" x2="100" y2="480"></line><line x1="170" y1="0" x2="170" y2="480"></line><line x1="240" y1="0" x2="240" y2="480"></line><line x1="310" y1="0" x2="310" y2="480"></line><line x1="380" y1="0" x2="380" y2="480"></line>
+            </g>
+            <g stroke="var(--color-neutral-100)" stroke-width="5">
+              <line x1="0" y1="40" x2="390" y2="40"></line><line x1="0" y1="100" x2="390" y2="100"></line><line x1="0" y1="160" x2="390" y2="160"></line><line x1="0" y1="220" x2="390" y2="220"></line><line x1="0" y1="280" x2="390" y2="280"></line><line x1="0" y1="340" x2="390" y2="340"></line><line x1="0" y1="400" x2="390" y2="400"></line><line x1="0" y1="460" x2="390" y2="460"></line>
+            </g>
+            <line x1="-10" y1="470" x2="390" y2="150" stroke="var(--color-neutral-100)" stroke-width="7"></line>
+            <circle cx="100" cy="400" r="7" fill="none" stroke="var(--color-text)" stroke-width="3"></circle>
+            <rect x="303" y="93" width="14" height="14" fill="var(--color-accent)"></rect>
+          </svg>
+
+          <div style="position:absolute; top:12px; left:16px; background:var(--color-bg); border:1px solid var(--color-text); padding:6px 9px; font-size:10px; font-weight:800; letter-spacing:0.08em">MANHATTAN · GRAMERCY</div>
+
+          <div style="position:absolute; top:12px; right:16px; display:flex; flex-direction:column; gap:6px">
+            <div style="width:36px; height:36px; background:var(--color-bg); border:1px solid var(--color-text); display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:800; line-height:1">+</div>
+            <div style="width:36px; height:36px; background:var(--color-bg); border:1px solid var(--color-text); display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:800; line-height:1">−</div>
+          </div>
+        </div>
+
+        <div style="border-top:2px solid var(--color-text); background:var(--color-bg); padding:14px 16px 16px; display:flex; flex-direction:column; gap:12px">
+          <div>
+            <div style="font-size:10px; font-weight:800; letter-spacing:0.1em; margin-bottom:6px">MOBILITY PROFILE</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; border:1px solid var(--color-text)">
+              <button onClick="{{ setManual }}" style="{{ profManual }}">MANUAL CHAIR</button>
+              <button onClick="{{ setPower }}" style="{{ profPower }}">POWER CHAIR</button>
+              <button onClick="{{ setWalker }}" style="{{ profWalker }}">WALKER</button>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px">
+              <span style="font-size:10px; font-weight:800; letter-spacing:0.1em">ROUTING STRICTNESS</span>
+              <span style="font-size:10px; color:color-mix(in srgb, var(--color-text) 55%, transparent)">{{ strictNote }}</span>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; border:1px solid var(--color-text)">
+              <button onClick="{{ setSoft }}" style="{{ softStyle }}">SOFT PENALTIES</button>
+              <button onClick="{{ setHard }}" style="{{ hardStyle }}">HARD CONSTRAINTS</button>
+            </div>
+          </div>
+          <button style="width:100%; justify-content:space-between; background:var(--color-accent); color:var(--color-bg); border:0; padding:14px 16px; font-family:var(--font-heading); font-weight:800; font-size:15px; letter-spacing:0.02em; display:flex; align-items:center; cursor:pointer" style-hover="background:var(--color-accent-600)">
+            <span>COMPARE ROUTES</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="4" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SCREEN 2 — COMPARISON ══ -->
+    <div style="display:flex; flex-direction:column; gap:12px">
+      <div style="font-family:var(--font-heading); font-weight:800; font-size:13px; letter-spacing:0.08em; text-transform:uppercase">02 — Route comparison</div>
+      <div style="width:390px; height:844px; border:2px solid var(--color-text); background:var(--color-bg); display:flex; flex-direction:column; overflow:hidden">
+
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 16px 6px; font-size:11px; font-weight:600">
+          <span>9:43</span><span>NYC · LIVE DATA</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px; padding:6px 16px 12px; border-bottom:2px solid var(--color-divider)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 5 8 12 15 19"></polyline></svg>
+          <div style="font-family:var(--font-heading); font-weight:800; font-size:16px">Union Sq → Bellevue</div>
+          <div style="margin-left:auto; font-size:10px; font-weight:800; letter-spacing:0.08em; padding:3px 6px; border:1px solid var(--color-divider)">MANUAL</div>
+        </div>
+
+        <div style="position:relative; height:300px; overflow:hidden; background:var(--color-neutral-300); border-bottom:2px solid var(--color-text)">
+          <svg viewBox="0 0 390 300" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" style="display:block">
+            <defs>
+              <linearGradient id="gradeline" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="var(--color-accent-200)"></stop>
+                <stop offset="100%" stop-color="var(--color-accent-700)"></stop>
+              </linearGradient>
+            </defs>
+            <rect x="0" y="0" width="390" height="300" fill="var(--color-neutral-300)"></rect>
+            <g stroke="var(--color-neutral-100)" stroke-width="9">
+              <line x1="55" y1="0" x2="55" y2="300"></line><line x1="145" y1="0" x2="145" y2="300"></line><line x1="235" y1="0" x2="235" y2="300"></line><line x1="325" y1="0" x2="325" y2="300"></line>
+            </g>
+            <g stroke="var(--color-neutral-100)" stroke-width="5">
+              <line x1="0" y1="40" x2="390" y2="40"></line><line x1="0" y1="95" x2="390" y2="95"></line><line x1="0" y1="150" x2="390" y2="150"></line><line x1="0" y1="205" x2="390" y2="205"></line><line x1="0" y1="260" x2="390" y2="260"></line>
+            </g>
+            <path d="M55,260 L55,150 L235,150 L235,40 L325,40" fill="none" stroke="var(--color-text)" stroke-width="5" stroke-dasharray="11 7"></path>
+            <path d="M55,260 L145,260 L145,205 L235,205 L235,95 L325,95 L325,40" fill="none" stroke="var(--color-accent)" stroke-width="6"></path>
+            <path d="M55,150 L235,150" fill="none" stroke="url(#gradeline)" stroke-width="12" opacity="0.5"></path>
+            <g>
+              <circle cx="55" cy="150" r="7" fill="var(--color-accent-700)" stroke="var(--color-bg)" stroke-width="2"></circle>
+              <circle cx="235" cy="150" r="7" fill="var(--color-accent-700)" stroke="var(--color-bg)" stroke-width="2"></circle>
+              <circle cx="235" cy="95" r="7" fill="var(--color-accent-700)" stroke="var(--color-bg)" stroke-width="2"></circle>
+              <rect x="160" y="143" width="13" height="13" fill="var(--color-bg)" stroke="var(--color-accent-600)" stroke-width="3"></rect>
+              <rect x="229" y="34" width="13" height="13" fill="var(--color-bg)" stroke="var(--color-accent-600)" stroke-width="3"></rect>
+            </g>
+            <circle cx="55" cy="260" r="7" fill="none" stroke="var(--color-text)" stroke-width="3"></circle>
+            <rect x="318" y="33" width="14" height="14" fill="var(--color-accent)"></rect>
+          </svg>
+          <div style="position:absolute; left:16px; bottom:12px; background:var(--color-bg); border:1px solid var(--color-text); padding:8px 10px; display:flex; flex-direction:column; gap:5px">
+            <div style="display:flex; align-items:center; gap:7px; font-size:10px; font-weight:800; letter-spacing:0.06em"><span style="width:20px; height:0; border-top:4px solid var(--color-accent-700)"></span>MISSING RAMP</div>
+            <div style="display:flex; align-items:center; gap:7px; font-size:10px; font-weight:800; letter-spacing:0.06em"><span style="width:20px; height:0; border-top:4px dotted var(--color-accent-600)"></span>BAD SIDEWALK</div>
+            <div style="display:flex; align-items:center; gap:7px; font-size:10px; font-weight:800; letter-spacing:0.06em"><span style="width:20px; height:5px; background:linear-gradient(90deg, var(--color-accent-200), var(--color-accent-700))"></span>GRADE SEVERITY</div>
+          </div>
+        </div>
+
+        <div style="flex:1; display:flex; flex-direction:column">
+          <div style="display:grid; grid-template-columns:1fr 1fr">
+            <div style="padding:14px 14px 16px; border-right:2px solid var(--color-text)">
+              <div style="display:flex; align-items:center; gap:7px; margin-bottom:10px">
+                <span style="width:22px; height:0; border-top:4px dashed var(--color-text)"></span>
+                <span style="font-size:11px; font-weight:800; letter-spacing:0.08em">STANDARD</span>
+              </div>
+              <div style="font-family:var(--font-heading); font-weight:800; font-size:40px; line-height:1">18<span style="font-size:16px"> min</span></div>
+              <div style="font-size:11px; color:color-mix(in srgb, var(--color-text) 55%, transparent); margin-top:2px">0.9 mi · 14 crossings</div>
+              <div style="height:2px; background:var(--color-divider); margin:12px 0"></div>
+              <div style="display:flex; flex-direction:column; gap:9px">
+                <div>
+                  <div style="font-size:10px; font-weight:800; letter-spacing:0.08em; color:color-mix(in srgb, var(--color-text) 60%, transparent)">MISSING CURB CUTS</div>
+                  <div style="font-family:var(--font-heading); font-weight:800; font-size:22px; color:var(--color-accent-700)">3</div>
+                </div>
+                <div>
+                  <div style="font-size:10px; font-weight:800; letter-spacing:0.08em; color:color-mix(in srgb, var(--color-text) 60%, transparent)">MAX GRADE</div>
+                  <div style="font-family:var(--font-heading); font-weight:800; font-size:22px; color:var(--color-accent-700)">9.0%</div>
+                </div>
+                <div>
+                  <div style="font-size:10px; font-weight:800; letter-spacing:0.08em; color:color-mix(in srgb, var(--color-text) 60%, transparent)">POOR SIDEWALK</div>
+                  <div style="font-family:var(--font-heading); font-weight:800; font-size:22px; color:var(--color-accent-700)">2 <span style="font-size:12px; font-weight:600">segs</span></div>
+                </div>
+              </div>
+            </div>
+            <div style="padding:14px 14px 16px; background:var(--color-accent); color:var(--color-bg)">
+              <div style="display:flex; align-items:center; gap:7px; margin-bottom:10px">
+                <span style="width:22px; height:0; border-top:4px solid var(--color-bg)"></span>
+                <span style="font-size:11px; font-weight:800; letter-spacing:0.08em">ACCESSIBLE</span>
+              </div>
+              <div style="font-family:var(--font-heading); font-weight:800; font-size:40px; line-height:1">24<span style="font-size:16px"> min</span></div>
+              <div style="font-size:11px; margin-top:2px">1.1 mi · +6 min · 16 crossings</div>
+              <div style="height:2px; background:var(--color-bg); margin:12px 0; opacity:0.6"></div>
+              <div style="display:flex; flex-direction:column; gap:9px">
+                <div>
+                  <div style="font-size:10px; font-weight:800; letter-spacing:0.08em">MISSING CURB CUTS</div>
+                  <div style="font-family:var(--font-heading); font-weight:800; font-size:22px">0</div>
+                </div>
+                <div>
+                  <div style="font-size:10px; font-weight:800; letter-spacing:0.08em">MAX GRADE</div>
+                  <div style="font-family:var(--font-heading); font-weight:800; font-size:22px">4.2%</div>
+                </div>
+                <div>
+                  <div style="font-size:10px; font-weight:800; letter-spacing:0.08em">POOR SIDEWALK</div>
+                  <div style="font-family:var(--font-heading); font-weight:800; font-size:22px">0 <span style="font-size:12px; font-weight:600">segs</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="border-top:2px solid var(--color-text); padding:12px 16px; display:flex; flex-direction:column; gap:8px">
+            <div style="font-size:10px; font-weight:800; letter-spacing:0.1em">THE ACCESSIBLE ROUTE AVOIDS</div>
+            <div style="display:flex; align-items:flex-start; gap:9px">
+              <span style="width:11px; height:11px; border-radius:50%; background:var(--color-accent-700); margin-top:4px; flex:none"></span>
+              <span style="font-size:13px">No curb ramp — <strong>E 18 St &amp; 3 Av</strong>, SE corner</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:9px">
+              <span style="width:11px; height:11px; border-radius:50%; background:var(--color-accent-700); margin-top:4px; flex:none"></span>
+              <span style="font-size:13px">No curb ramp — <strong>E 23 St &amp; 2 Av</strong>, NW corner</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:9px">
+              <span style="width:11px; height:11px; border:3px solid var(--color-accent-600); background:var(--color-bg); margin-top:4px; flex:none"></span>
+              <span style="font-size:13px">Broken sidewalk — <strong>3 Av, E 19–20 St</strong></span>
+            </div>
+          </div>
+
+          <div style="margin-top:auto; display:grid; grid-template-columns:1fr auto; border-top:2px solid var(--color-text)">
+            <button style="background:var(--color-accent); color:var(--color-bg); border:0; padding:16px; font-family:var(--font-heading); font-weight:800; font-size:15px; text-align:left; cursor:pointer" style-hover="background:var(--color-accent-600)">START ACCESSIBLE ROUTE</button>
+            <button style="background:var(--color-bg); border:0; border-left:2px solid var(--color-text); padding:16px; font-family:var(--font-heading); font-weight:800; font-size:13px; cursor:pointer" style-hover="background:var(--color-neutral-200)">SWAP</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SCREEN 3 — REPORT ══ -->
+    <div style="display:flex; flex-direction:column; gap:12px">
+      <div style="font-family:var(--font-heading); font-weight:800; font-size:13px; letter-spacing:0.08em; text-transform:uppercase">03 — Report a hazard</div>
+      <div style="width:390px; height:844px; border:2px solid var(--color-text); background:var(--color-bg); display:flex; flex-direction:column; overflow:hidden; position:relative">
+
+        <div style="position:relative; flex:1; background:var(--color-neutral-300); overflow:hidden">
+          <svg viewBox="0 0 390 420" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" style="display:block">
+            <rect x="0" y="0" width="390" height="420" fill="var(--color-neutral-300)"></rect>
+            <g stroke="var(--color-neutral-100)" stroke-width="10">
+              <line x1="60" y1="0" x2="60" y2="420"></line><line x1="195" y1="0" x2="195" y2="420"></line><line x1="330" y1="0" x2="330" y2="420"></line>
+            </g>
+            <g stroke="var(--color-neutral-100)" stroke-width="6">
+              <line x1="0" y1="90" x2="390" y2="90"></line><line x1="0" y1="215" x2="390" y2="215"></line><line x1="0" y1="340" x2="390" y2="340"></line>
+            </g>
+            <circle cx="195" cy="215" r="34" fill="var(--color-accent)" opacity="0.16"></circle>
+            <circle cx="195" cy="215" r="20" fill="var(--color-accent)" opacity="0.28"></circle>
+            <rect x="187" y="207" width="16" height="16" fill="var(--color-accent)" stroke="var(--color-bg)" stroke-width="2"></rect>
+          </svg>
+          <div style="position:absolute; inset:0; background:color-mix(in srgb, var(--color-text) 22%, transparent)"></div>
+          <div style="position:absolute; top:16px; left:16px; right:16px; display:flex; justify-content:space-between; align-items:center">
+            <div style="background:var(--color-bg); border:1px solid var(--color-text); padding:7px 10px; font-size:11px; font-weight:800; letter-spacing:0.06em">TAP TO MOVE PIN</div>
+            <div style="width:34px; height:34px; background:var(--color-bg); border:1px solid var(--color-text); display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:800">✕</div>
+          </div>
+        </div>
+
+        <div style="border-top:2px solid var(--color-text); background:var(--color-bg); padding:16px 16px 18px; display:flex; flex-direction:column; gap:14px">
+          <div>
+            <div style="font-size:10px; font-weight:800; letter-spacing:0.1em; color:color-mix(in srgb, var(--color-text) 60%, transparent)">REPORTING AT</div>
+            <div style="font-family:var(--font-heading); font-weight:800; font-size:22px; line-height:1.1; margin-top:3px">E 14 St &amp; 3 Av<span style="color:var(--color-accent)"> · SE corner</span></div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:2px; background:var(--color-text); border:2px solid var(--color-text)">
+            <button onClick="{{ pickSidewalk }}" style="{{ catSidewalk }}">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18 L9 6 L15 18 L21 9"></path></svg>
+              <span>BROKEN SIDEWALK</span>
+            </button>
+            <button onClick="{{ pickRamp }}" style="{{ catRamp }}">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 19 H21"></path><path d="M6 19 L18 7"></path><path d="M12 5 v6"></path></svg>
+              <span>MISSING RAMP</span>
+            </button>
+            <button onClick="{{ pickIncline }}" style="{{ catIncline }}">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 20 L20 4"></path><path d="M3 20 H20 V4"></path></svg>
+              <span>STEEP INCLINE</span>
+            </button>
+            <button onClick="{{ pickObstruction }}" style="{{ catObstruction }}">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16"></rect><line x1="4" y1="20" x2="20" y2="4"></line></svg>
+              <span>OBSTRUCTION</span>
+            </button>
+            <button onClick="{{ pickConstruction }}" style="{{ catConstruction }}">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 L21 20 H3 Z"></path><line x1="12" y1="10" x2="12" y2="15"></line><line x1="12" y1="17.5" x2="12" y2="17.6"></line></svg>
+              <span>CONSTRUCTION</span>
+            </button>
+            <div style="background:var(--color-bg); padding:12px; display:flex; flex-direction:column; justify-content:center; gap:3px">
+              <div style="font-size:10px; font-weight:800; letter-spacing:0.08em; color:color-mix(in srgb, var(--color-text) 60%, transparent)">SELECTED</div>
+              <div style="font-family:var(--font-heading); font-weight:800; font-size:14px; line-height:1.15">{{ catLabel }}</div>
+            </div>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--color-divider); padding-bottom:8px">
+            <span style="font-size:10px; font-weight:800; letter-spacing:0.08em; color:color-mix(in srgb, var(--color-text) 60%, transparent)">NOTE</span>
+            <span style="font-size:14px; color:color-mix(in srgb, var(--color-text) 45%, transparent)">Optional — one line</span>
+            <span style="margin-left:auto; font-size:11px; font-weight:800; color:var(--color-accent-700)">+ PHOTO</span>
+          </div>
+
+          <button style="width:100%; display:flex; align-items:center; justify-content:space-between; background:var(--color-accent); color:var(--color-bg); border:0; padding:18px 16px; font-family:var(--font-heading); font-weight:800; font-size:17px; cursor:pointer" style-hover="background:var(--color-accent-600)">
+            <span>SUBMIT REPORT</span>
+            <span style="font-size:11px; font-weight:600; letter-spacing:0.04em">2 TAPS · 4 SEC</span>
+          </button>
+          <div style="font-size:11px; color:color-mix(in srgb, var(--color-text) 55%, transparent); margin-top:-6px">Goes live for other users immediately; flagged unverified until a second report or a DOT inspection confirms it.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SCREEN 4 — CONFIDENCE ══ -->
+    <div style="display:flex; flex-direction:column; gap:12px">
+      <div style="font-family:var(--font-heading); font-weight:800; font-size:13px; letter-spacing:0.08em; text-transform:uppercase">04 — Data confidence</div>
+      <div style="width:390px; height:844px; border:2px solid var(--color-text); background:var(--color-bg); display:flex; flex-direction:column; overflow:hidden">
+
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 16px 6px; font-size:11px; font-weight:600">
+          <span>9:44</span><span>NYC · LIVE DATA</span>
+        </div>
+        <div style="padding:6px 16px 12px; border-bottom:2px solid var(--color-text)">
+          <div style="font-family:var(--font-heading); font-weight:800; font-size:20px">What we actually know</div>
+          <div style="font-size:12px; color:color-mix(in srgb, var(--color-text) 60%, transparent)">Union Sq → Bellevue · accessible route</div>
+        </div>
+
+        <div style="position:relative; height:290px; background:var(--color-neutral-300); border-bottom:2px solid var(--color-text); overflow:hidden">
+          <svg viewBox="0 0 390 290" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" style="display:block">
+            <defs>
+              <pattern id="unknownhatch" width="8" height="8" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+                <rect width="8" height="8" fill="var(--color-neutral-100)"></rect>
+                <line x1="0" y1="0" x2="0" y2="8" stroke="var(--color-neutral-600)" stroke-width="4"></line>
+              </pattern>
+            </defs>
+            <rect x="0" y="0" width="390" height="290" fill="var(--color-neutral-300)"></rect>
+            <g stroke="var(--color-neutral-100)" stroke-width="9">
+              <line x1="55" y1="0" x2="55" y2="290"></line><line x1="145" y1="0" x2="145" y2="290"></line><line x1="235" y1="0" x2="235" y2="290"></line><line x1="325" y1="0" x2="325" y2="290"></line>
+            </g>
+            <g stroke="var(--color-neutral-100)" stroke-width="5">
+              <line x1="0" y1="55" x2="390" y2="55"></line><line x1="0" y1="115" x2="390" y2="115"></line><line x1="0" y1="175" x2="390" y2="175"></line><line x1="0" y1="245" x2="390" y2="245"></line>
+            </g>
+            <path d="M55,245 L145,245 L145,175" fill="none" stroke="var(--color-accent)" stroke-width="7"></path>
+            <path d="M145,175 L235,175 L235,115" fill="none" stroke="url(#unknownhatch)" stroke-width="7"></path>
+            <path d="M235,115 L325,115 L325,55" fill="none" stroke="var(--color-accent)" stroke-width="7"></path>
+            <circle cx="145" cy="175" r="6" fill="var(--color-bg)" stroke="var(--color-text)" stroke-width="3"></circle>
+            <circle cx="235" cy="115" r="6" fill="var(--color-bg)" stroke="var(--color-text)" stroke-width="3"></circle>
+            <circle cx="55" cy="245" r="7" fill="none" stroke="var(--color-text)" stroke-width="3"></circle>
+            <rect x="318" y="48" width="14" height="14" fill="var(--color-accent)"></rect>
+          </svg>
+          <div style="position:absolute; right:14px; top:14px; background:var(--color-bg); border:1px solid var(--color-text); padding:9px 11px; display:flex; flex-direction:column; gap:7px">
+            <div style="display:flex; align-items:center; gap:8px; font-size:10px; font-weight:800; letter-spacing:0.06em"><span style="width:22px; height:6px; background:var(--color-accent)"></span>CONFIRMED CLEAR</div>
+            <div style="display:flex; align-items:center; gap:8px; font-size:10px; font-weight:800; letter-spacing:0.06em"><span style="width:22px; height:6px; background:repeating-linear-gradient(45deg, var(--color-neutral-600) 0 3px, var(--color-neutral-100) 3px 6px)"></span>NO INSPECTION DATA</div>
+            <div style="display:flex; align-items:center; gap:8px; font-size:10px; font-weight:800; letter-spacing:0.06em"><span style="width:22px; height:6px; background:var(--color-text)"></span>KNOWN BARRIER</div>
+          </div>
+        </div>
+
+        <div style="padding:16px; display:flex; flex-direction:column; gap:14px; flex:1">
+          <div style="display:flex; align-items:baseline; gap:12px">
+            <div style="font-family:var(--font-heading); font-weight:800; font-size:52px; line-height:1">38%</div>
+            <div style="font-size:13px; line-height:1.3">of this route has <strong>never been inspected</strong>. We route around what we know, not what we assume.</div>
+          </div>
+
+          <div style="display:flex; height:16px; border:1px solid var(--color-text)">
+            <div style="width:57%; background:var(--color-accent)"></div>
+            <div style="width:38%; background:repeating-linear-gradient(45deg, var(--color-neutral-600) 0 4px, var(--color-neutral-100) 4px 8px)"></div>
+            <div style="width:5%; background:var(--color-text)"></div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr; gap:0; border-top:2px solid var(--color-divider)">
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:11px 0; border-bottom:1px solid var(--color-divider)">
+              <div>
+                <div style="font-family:var(--font-heading); font-weight:800; font-size:14px">Curb ramps · DOT survey</div>
+                <div style="font-size:11px; color:color-mix(in srgb, var(--color-text) 55%, transparent)">Last updated Mar 2026 · 211 of 340 corners</div>
+              </div>
+              <div style="font-size:11px; font-weight:800; letter-spacing:0.06em; color:var(--color-accent-700)">62%</div>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:11px 0; border-bottom:1px solid var(--color-divider)">
+              <div>
+                <div style="font-family:var(--font-heading); font-weight:800; font-size:14px">Sidewalk condition</div>
+                <div style="font-size:11px; color:color-mix(in srgb, var(--color-text) 55%, transparent)">Mixed: 311 complaints + 2 user reports</div>
+              </div>
+              <div style="font-size:11px; font-weight:800; letter-spacing:0.06em; color:var(--color-accent-700)">PARTIAL</div>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:11px 0; border-bottom:1px solid var(--color-divider)">
+              <div>
+                <div style="font-family:var(--font-heading); font-weight:800; font-size:14px">Elevation / grade</div>
+                <div style="font-size:11px; color:color-mix(in srgb, var(--color-text) 55%, transparent)">LiDAR DEM, 1 ft resolution · citywide</div>
+              </div>
+              <div style="font-size:11px; font-weight:800; letter-spacing:0.06em">COMPLETE</div>
+            </div>
+          </div>
+
+          <div style="margin-top:auto; border:2px solid var(--color-text); padding:12px 14px; display:flex; gap:12px; align-items:center">
+            <div style="width:26px; height:26px; background:repeating-linear-gradient(45deg, var(--color-neutral-600) 0 4px, var(--color-neutral-100) 4px 8px); border:1px solid var(--color-text); flex:none"></div>
+            <div style="font-size:12px; line-height:1.35">Hatched segments are <strong>unverified</strong>, not safe. Scout one and report back to fill the gap for everyone.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const SEG_ON = "padding:10px 6px; border:0; cursor:pointer; font-family:var(--font-heading); font-weight:800; font-size:11px; letter-spacing:0.04em; text-align:left; background:var(--color-text); color:var(--color-bg)";
+const SEG_OFF = "padding:10px 6px; border:0; cursor:pointer; font-family:var(--font-heading); font-weight:800; font-size:11px; letter-spacing:0.04em; text-align:left; background:var(--color-bg); color:var(--color-text)";
+const CAT_BASE = "display:flex; flex-direction:column; align-items:flex-start; gap:7px; padding:12px; border:0; cursor:pointer; font-family:var(--font-heading); font-weight:800; font-size:12px; letter-spacing:0.03em; text-align:left; min-height:76px";
+const CAT_ON = CAT_BASE + "; background:var(--color-accent); color:var(--color-bg)";
+const CAT_OFF = CAT_BASE + "; background:var(--color-bg); color:var(--color-text)";
+
+const CATS = {
+  sidewalk: "Broken sidewalk",
+  ramp: "Missing ramp",
+  incline: "Steep incline",
+  obstruction: "Obstruction",
+  construction: "Construction"
+};
+
+class Component extends DCLogic {
+  state = { profile: "manual", strict: "hard", cat: "ramp" };
+
+  renderVals() {
+    const p = this.state.profile, s = this.state.strict, c = this.state.cat;
+    const seg = (on) => (on ? SEG_ON : SEG_OFF);
+    const cat = (k) => (c === k ? CAT_ON : CAT_OFF);
+    return {
+      profManual: seg(p === "manual"),
+      profPower: seg(p === "power"),
+      profWalker: seg(p === "walker"),
+      setManual: () => this.setState({ profile: "manual" }),
+      setPower: () => this.setState({ profile: "power" }),
+      setWalker: () => this.setState({ profile: "walker" }),
+      softStyle: seg(s === "soft"),
+      hardStyle: seg(s === "hard"),
+      setSoft: () => this.setState({ strict: "soft" }),
+      setHard: () => this.setState({ strict: "hard" }),
+      strictNote: s === "hard" ? "Never route over a barrier" : "Detour only if cheap",
+      catSidewalk: cat("sidewalk"),
+      catRamp: cat("ramp"),
+      catIncline: cat("incline"),
+      catObstruction: cat("obstruction"),
+      catConstruction: cat("construction"),
+      pickSidewalk: () => this.setState({ cat: "sidewalk" }),
+      pickRamp: () => this.setState({ cat: "ramp" }),
+      pickIncline: () => this.setState({ cat: "incline" }),
+      pickObstruction: () => this.setState({ cat: "obstruction" }),
+      pickConstruction: () => this.setState({ cat: "construction" }),
+      catLabel: CATS[c]
+    };
+  }
+}
+
+</script>
+</body>
+</html>
