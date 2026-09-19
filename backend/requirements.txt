@@ -1,6 +1,7 @@
 fastapi>=0.115
 uvicorn[standard]>=0.30
-requests
+requests>=2.32
+shapely>=2.0
 pandas
 geopandas
 pyarrow
