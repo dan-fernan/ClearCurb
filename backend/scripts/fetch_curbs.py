@@ -27,59 +27,27 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
-import sys
-import time
 from datetime import datetime, timezone
 from pathlib import Path
 
 import requests
 from shapely.geometry import mapping, shape
-from shapely.ops import unary_union
 
-SODA_BASE = "https://data.cityofnewyork.us/resource"
+from lower_manhattan import (
+    DEFAULT_NTAS,
+    NTA_DATASET,
+    RAW_DIR,
+    SODA_BASE,
+    fetch_neighborhoods,
+    get_json,
+    session,
+    study_area,
+)
+
 CURBS_DATASET = "5xvt-8cbk"
-NTA_DATASET = "9nt8-h7nd"  # 2020 Neighborhood Tabulation Areas
-
-# Manhattan CD1-3 NTAs (Financial District through East Village).
-# MN0191 (The Battery-Governors Island-Ellis Island-Liberty Island) is left out
-# because it is mostly islands; pass it with --nta to include it.
-DEFAULT_NTAS = [
-    "MN0101",  # Financial District-Battery Park City
-    "MN0102",  # Tribeca-Civic Center
-    "MN0201",  # SoHo-Little Italy-Hudson Square
-    "MN0202",  # Greenwich Village
-    "MN0203",  # West Village
-    "MN0301",  # Chinatown-Two Bridges
-    "MN0302",  # Lower East Side
-    "MN0303",  # East Village
-]
-
 PAGE_SIZE = 5000
-DEFAULT_OUT_DIR = Path(__file__).resolve().parents[1] / "data" / "raw"
+DEFAULT_OUT_DIR = RAW_DIR
 CURB_FIELDS = ["source_id", "feat_code", "sub_code", "status", "shape_leng"]
-
-
-def session() -> requests.Session:
-    s = requests.Session()
-    token = os.environ.get("SOCRATA_APP_TOKEN")
-    if token:
-        s.headers["X-App-Token"] = token
-    return s
-
-
-def get_json(s: requests.Session, url: str, params: dict, retries: int = 4):
-    for attempt in range(retries):
-        try:
-            r = s.get(url, params=params, timeout=90)
-            r.raise_for_status()
-            return r.json()
-        except requests.RequestException as e:
-            if attempt == retries - 1:
-                raise
-            wait = 2**attempt
-            print(f"  request failed ({e}); retrying in {wait}s", file=sys.stderr)
-            time.sleep(wait)
 
 
 def list_ntas(s: requests.Session) -> None:
@@ -97,24 +65,6 @@ def list_ntas(s: requests.Session) -> None:
         mark = "*" if r["nta2020"] in DEFAULT_NTAS else " "
         print(f"{mark} {r['nta2020']}  {r['ntaname']}")
     print("\n* = included by default")
-
-
-def fetch_neighborhoods(s: requests.Session, codes: list[str]) -> list[dict]:
-    quoted = ",".join(f"'{c}'" for c in codes)
-    rows = get_json(
-        s,
-        f"{SODA_BASE}/{NTA_DATASET}.json",
-        {
-            "$select": "nta2020,ntaname,cdtaname,the_geom",
-            "$where": f"nta2020 in({quoted})",
-            "$limit": len(codes),
-        },
-    )
-    found = {r["nta2020"] for r in rows}
-    missing = set(codes) - found
-    if missing:
-        sys.exit(f"Unknown NTA code(s): {', '.join(sorted(missing))} (see --list-ntas)")
-    return rows
 
 
 def fetch_curbs_in_box(s: requests.Session, bounds: tuple[float, float, float, float]) -> list[dict]:
@@ -199,7 +149,7 @@ def main() -> None:
     for h in sorted(hoods, key=lambda h: h["nta2020"]):
         print(f"  {h['nta2020']}  {h['ntaname']}")
 
-    bounds = unary_union([shape(h["the_geom"]) for h in hoods]).bounds
+    bounds = study_area(hoods).bounds
     print(f"Fetching curbs in bounding box {tuple(round(b, 4) for b in bounds)}...")
     rows = fetch_curbs_in_box(s, bounds)
 
