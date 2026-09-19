@@ -5,4 +5,5 @@ shapely>=2.0
 pandas
 geopandas
 pyarrow
+networkx
 rasterio
