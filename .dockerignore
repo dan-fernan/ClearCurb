@@ -1,0 +1,12 @@
+.git
+.DS_Store
+frontend
+docs
+designs
+backend/.venv
+backend/scripts
+backend/data/raw
+backend/data/processed/*
+!backend/data/processed/graph_nodes_attrs.parquet
+!backend/data/processed/graph_edges_attrs.parquet
+**/__pycache__
