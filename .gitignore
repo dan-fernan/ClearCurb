@@ -4,4 +4,9 @@ node_modules/
 __pycache__/
 .env*
 
-backend/data/
+# generated data; only the two files the API loads at startup are tracked so the app can be deployed
+backend/data/*
+!backend/data/processed/
+backend/data/processed/*
+!backend/data/processed/graph_nodes_attrs.parquet
+!backend/data/processed/graph_edges_attrs.parquet
