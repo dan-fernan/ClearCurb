@@ -1,0 +1,9 @@
+# Runtime dependencies of the API only (app/). The data pipeline scripts need requirements.txt.
+fastapi>=0.115
+uvicorn[standard]>=0.30
+shapely>=2.0
+pandas
+geopandas
+pyarrow
+pyproj
+networkx
