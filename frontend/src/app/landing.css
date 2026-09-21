@@ -1,0 +1,362 @@
+/* Landing page. Same Modernist rules as the planner: zero radius, 2px rules, flush-left type, one accent. */
+
+.lp {
+  min-height: 100dvh;
+  border: var(--rule);
+  display: flex;
+  flex-direction: column;
+}
+.lp a {
+  text-decoration: none;
+}
+
+/* ── nav ────────────────────────────────────────────────────────────── */
+.lp-nav {
+  display: flex;
+  align-items: stretch;
+  border-bottom: var(--rule);
+}
+.lp-brand {
+  padding-block: 16px;
+}
+.lp-nav nav {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 0 24px;
+}
+.lp-nav nav a {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+.lp-nav nav a:hover {
+  color: var(--color-accent-600);
+}
+.lp-nav__cta {
+  display: flex;
+  align-items: center;
+  padding: 0 22px;
+  background: var(--color-accent);
+  color: var(--color-bg);
+  font-size: 14px;
+  font-weight: 800;
+}
+.lp-nav__cta:hover {
+  background: var(--color-accent-600);
+}
+
+/* ── buttons ────────────────────────────────────────────────────────── */
+.lp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 22px;
+  border: 2px solid var(--color-text);
+  color: var(--color-text);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+.lp-btn:hover {
+  background: var(--color-neutral-200);
+}
+.lp-btn--primary {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-bg);
+}
+.lp-btn--primary:hover {
+  background: var(--color-accent-600);
+  border-color: var(--color-accent-600);
+}
+.lp-btn--inverse {
+  background: var(--color-bg);
+  border-color: var(--color-bg);
+  color: var(--color-text);
+}
+.lp-btn--inverse:hover {
+  background: var(--color-neutral-200);
+}
+
+/* ── hero ───────────────────────────────────────────────────────────── */
+.lp-hero {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  border-bottom: var(--rule);
+}
+.lp-hero__copy {
+  padding: 72px 48px 72px 40px;
+  border-right: var(--rule);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 24px;
+}
+.lp-hero h1 {
+  margin: 0;
+  font-size: clamp(38px, 5.2vw, 72px);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+.lp-lede {
+  max-width: 34em;
+  margin: 0;
+  font-size: 18px;
+  color: var(--ink-60);
+}
+.lp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.lp-hero__art {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.lp-sketch {
+  display: block;
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  min-height: 0;
+  object-fit: cover;
+}
+.lp-hero__art figcaption {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin: 0;
+  padding: 12px 20px;
+  border-top: var(--rule);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+.lp-key {
+  width: 26px;
+}
+.lp-key--standard {
+  height: 0;
+  border-top: 3px dashed var(--color-text);
+}
+.lp-key--accessible {
+  height: 6px;
+  margin-left: 12px;
+  background: var(--color-accent);
+}
+
+/* ── facts strip ────────────────────────────────────────────────────── */
+.lp-facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-bottom: var(--rule);
+}
+.lp-facts div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 22px 40px;
+  border-right: 1px solid var(--color-divider);
+}
+.lp-facts div:last-child {
+  border-right: 0;
+}
+.lp-facts strong {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.lp-facts span {
+  font-size: 13px;
+  color: var(--ink-60);
+}
+
+/* ── sections ───────────────────────────────────────────────────────── */
+.lp-section {
+  padding: 64px 40px;
+  border-bottom: var(--rule);
+}
+.lp-section__title {
+  margin: 0 0 32px;
+  font-size: 32px;
+}
+.lp-section h3 {
+  margin: 0 0 6px;
+  font-size: 18px;
+}
+.lp-section p {
+  margin: 0;
+  color: var(--ink-60);
+}
+.lp-section--split {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 24px 40px;
+}
+.lp-section--split .lp-section__title {
+  margin: 0;
+}
+
+.lp-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+.lp-step__n {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  font-weight: 800;
+  border: 2px solid var(--color-text);
+}
+.lp-step__n--0 {
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+.lp-step__n--1 {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-bg);
+}
+
+.lp-barriers {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.lp-barriers li {
+  display: flex;
+  gap: 18px;
+  padding: 20px 0;
+  border-top: 1px solid var(--color-divider);
+}
+.lp-barriers li:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+.lp-barriers .cc-mark {
+  margin-top: 5px;
+}
+
+.lp-section .lp-data__intro {
+  margin-top: 14px;
+  max-width: 26em;
+}
+.lp-sources {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.lp-sources li {
+  display: grid;
+  grid-template-columns: 170px 1fr;
+  gap: 8px 24px;
+  padding: 20px 0;
+  border-top: 1px solid var(--color-divider);
+}
+.lp-sources li:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+.lp-sources__q {
+  padding-top: 4px;
+  color: var(--color-accent-700);
+}
+.lp-sources__from {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text);
+  opacity: 0.55;
+}
+
+/* ── closing call to action ─────────────────────────────────────────── */
+.lp-final {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 56px 40px;
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+.lp-final h2 {
+  margin: 0;
+  font-size: 42px;
+}
+
+.lp-footer {
+  margin-top: auto;
+  display: flex;
+  gap: 16px;
+  align-items: baseline;
+  padding: 18px 40px;
+  border-top: var(--rule);
+  font-size: 12px;
+  color: var(--ink-60);
+}
+.lp-footer .cc-label {
+  color: var(--color-text);
+}
+
+@media (max-width: 960px) {
+  /* Brand and call to action share the first row; the section links drop to a row of their own. */
+  .lp-nav {
+    flex-wrap: wrap;
+  }
+  .lp-brand {
+    flex: 1;
+  }
+  .lp-nav nav {
+    order: 3;
+    flex: 1 1 100%;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 20px;
+    border-top: var(--rule);
+  }
+  .lp-hero,
+  .lp-section--split,
+  .lp-steps,
+  .lp-facts {
+    grid-template-columns: 1fr;
+  }
+  .lp-hero__copy {
+    padding: 48px 24px;
+    border-right: 0;
+    border-bottom: var(--rule);
+  }
+  .lp-sketch {
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+  .lp-facts div {
+    padding: 18px 24px;
+    border-right: 0;
+    border-bottom: 1px solid var(--color-divider);
+  }
+  .lp-sources li {
+    grid-template-columns: 1fr;
+  }
+  .lp-section,
+  .lp-final,
+  .lp-footer {
+    padding-inline: 24px;
+  }
+}

@@ -10,3 +10,5 @@ backend/data/*
 backend/data/processed/*
 !backend/data/processed/graph_nodes_attrs.parquet
 !backend/data/processed/graph_edges_attrs.parquet
+
+designs/

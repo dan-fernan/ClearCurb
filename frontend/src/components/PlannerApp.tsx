@@ -6,7 +6,7 @@ import { describeError, getHealth, getProfiles, getRoute, type RouteParams } fro
 import { analyze } from "@/lib/route-metrics";
 import type { Report, ReportCategory, ReportDraft } from "@/lib/reports";
 import type { ApiProfile, Barrier, LonLat, Place, RouteResponse, Strictness } from "@/lib/types";
-import { coordLabel, DEFAULT_DESTINATION, DEFAULT_ORIGIN } from "@/lib/ui-copy";
+import { coordLabel } from "@/lib/ui-copy";
 import ComparisonBand, { type BandState } from "./ComparisonBand";
 import PlanRail, { type HealthState } from "./PlanRail";
 import { ReportPopover, ReportRail } from "./ReportPanels";
@@ -35,9 +35,10 @@ export default function PlannerApp() {
   // trip
   const [chosenProfile, setChosenProfile] = useState<string | null>(null);
   const [strictness, setStrictness] = useState<Strictness>("hard");
-  const [origin, setOrigin] = useState<Place | null>(DEFAULT_ORIGIN);
-  const [destination, setDestination] = useState<Place | null>(DEFAULT_DESTINATION);
-  const [pickTarget, setPickTarget] = useState<PickTarget | null>(null);
+  const [origin, setOrigin] = useState<Place | null>(null);
+  const [destination, setDestination] = useState<Place | null>(null);
+  // Nothing is preselected: the first click on the map sets FROM, the second sets TO.
+  const [pickTarget, setPickTarget] = useState<PickTarget | null>("origin");
   const [overlayOn, setOverlayOn] = useState(true);
   const [standardOn, setStandardOn] = useState(true);
   const [focus, setFocus] = useState<{ lonlat: LonLat; nonce: number } | null>(null);
@@ -125,9 +126,13 @@ export default function PlannerApp() {
       return;
     }
     const p: Place = { lat, lon, label: coordLabel(lat, lon) };
-    if (pickTarget === "origin") setOrigin(p);
-    else if (pickTarget === "destination") setDestination(p);
-    setPickTarget(null);
+    if (pickTarget === "origin") {
+      setOrigin(p);
+      setPickTarget(destination ? null : "destination");
+    } else if (pickTarget === "destination") {
+      setDestination(p);
+      setPickTarget(origin ? null : "origin");
+    }
   }
 
   function pick(t: PickTarget) {

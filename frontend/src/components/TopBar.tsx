@@ -1,6 +1,7 @@
 "use client";
 
 import { TriangleAlert } from "lucide-react";
+import Link from "next/link";
 import type { Place } from "@/lib/types";
 
 export type PickTarget = "origin" | "destination";
@@ -50,7 +51,11 @@ export default function TopBar(p: Props) {
   return (
     <header className="cc-top">
       <div className="cc-brand">
-        <h1 className="cc-wordmark">CLEARCURB</h1>
+        <h1 className="cc-wordmark">
+          <Link href="/" aria-label="ClearCurb home">
+            CLEARCURB
+          </Link>
+        </h1>
         <span className="cc-chip">NYC</span>
       </div>
 
