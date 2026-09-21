@@ -1,7 +1,3 @@
-/* Vendored from the design handoff: designs/design_handoff_clearcurb/_ds/modernist-<id>/styles.css (the design system's source of truth).
-   Only change: the Google Fonts @import is dropped; Archivo is self-hosted through next/font in layout.tsx. */
-/* Modernist — design-system tokens and component classes. This file is the source of truth for the system's look; retune it here and see readme.md. */
-
 :root {
   --color-bg: #f3f2f2;
   --color-surface: #eae9e9;

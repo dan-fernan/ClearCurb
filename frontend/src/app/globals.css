@@ -13,10 +13,6 @@ html,
 body {
   height: 100%;
 }
-body {
-  overflow: hidden;
-}
-
 button {
   font: inherit;
   color: inherit;
@@ -83,6 +79,10 @@ button {
   gap: 10px;
   padding: 0 20px;
   border-right: var(--rule);
+}
+.cc-wordmark a {
+  color: inherit;
+  text-decoration: none;
 }
 .cc-wordmark {
   font-size: 20px;
@@ -218,6 +218,35 @@ button {
 }
 .cc-block__head:first-child {
   margin-top: 0;
+}
+.cc-fold__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 16px 20px 10px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+.cc-fold__head:hover {
+  background: var(--color-neutral-200);
+}
+.cc-fold__side {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cc-fold__chev {
+  transition: transform 0.15s;
+}
+.cc-fold__head[aria-expanded="false"] .cc-fold__chev {
+  transform: rotate(-90deg);
+}
+.cc-fold__head[aria-expanded="false"] {
+  padding-bottom: 16px;
 }
 .cc-note {
   font-size: 10px;
@@ -903,9 +932,6 @@ button.cc-mapchip[aria-pressed="true"] {
 
 /* The design is desktop-first. On narrow screens stack the rail above the map and let the page scroll. */
 @media (max-width: 960px) {
-  body {
-    overflow: auto;
-  }
   .cc-app {
     height: auto;
     min-height: 100dvh;

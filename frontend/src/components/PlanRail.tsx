@@ -1,5 +1,7 @@
 "use client";
 
+import { ChevronDown } from "lucide-react";
+import { useId, useState, useSyncExternalStore, type ReactNode } from "react";
 import Segmented from "./Segmented";
 import type { ApiProfile, Barrier, Strictness } from "@/lib/types";
 import { profileLabel, STRICTNESS_OPTIONS } from "@/lib/ui-copy";
@@ -56,6 +58,38 @@ function BarrierList({ barriers, onFocus }: { barriers: Barrier[]; onFocus: (b: 
   );
 }
 
+const NARROW = "(max-width: 960px)";
+function subscribeNarrow(cb: () => void) {
+  const mq = window.matchMedia(NARROW);
+  mq.addEventListener("change", cb);
+  return () => mq.removeEventListener("change", cb);
+}
+const isNarrow = () => window.matchMedia(NARROW).matches;
+
+/** A rail section with a toggleable header. On narrow screens the rail sits above the map, so it starts collapsed there. */
+function Fold({ title, count, children }: { title: string; count?: number; children: ReactNode }) {
+  const [chosen, setChosen] = useState<boolean | null>(null);
+  const narrow = useSyncExternalStore(subscribeNarrow, isNarrow, () => false);
+  // Until the person toggles it, follow the screen: open on desktop, collapsed on mobile.
+  const open = chosen ?? !narrow;
+  const id = useId();
+
+  return (
+    <div className="cc-block cc-block--flush">
+      <button type="button" className="cc-fold__head" aria-expanded={open} aria-controls={id} onClick={() => setChosen(!open)}>
+        <span className="cc-label">{title}</span>
+        <span className="cc-fold__side">
+          {count !== undefined && <span className="cc-note">{count}</span>}
+          <ChevronDown size={16} aria-hidden className="cc-fold__chev" />
+        </span>
+      </button>
+      <div id={id} hidden={!open}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
 export default function PlanRail(p: Props) {
   const note = STRICTNESS_OPTIONS.find((o) => o.value === p.strictness)?.note;
 
@@ -108,23 +142,16 @@ export default function PlanRail(p: Props) {
       </div>
 
       {p.hasStandard && (
-        <div className="cc-block cc-block--flush" style={{ paddingTop: 18 }}>
-          <div className="cc-block__head" style={{ padding: "0 20px", margin: "0 0 10px" }}>
-            <span className="cc-label">The accessible route avoids</span>
-            <span className="cc-note">{p.avoided.length}</span>
-          </div>
+        <Fold title="The accessible route avoids" count={p.avoided.length}>
           {p.avoided.length === 0 ? (
             <p className="cc-empty">Nothing. The shortest path is already accessible for this profile.</p>
           ) : (
             <BarrierList barriers={p.avoided} onFocus={p.onFocusBarrier} />
           )}
-        </div>
+        </Fold>
       )}
 
-      <div className="cc-block cc-block--flush" style={{ paddingTop: 18 }}>
-        <div className="cc-block__head" style={{ padding: "0 20px", margin: "0 0 10px" }}>
-          <span className="cc-label">Along this route</span>
-        </div>
+      <Fold title="Along this route">
         {!p.hasRoute ? (
           <p className="cc-empty">
             {p.routeFailed ? "There is no route to list. See the message below the map." : "Set a start and end to see what the route passes."}
@@ -137,7 +164,7 @@ export default function PlanRail(p: Props) {
         ) : (
           <BarrierList barriers={p.barriers} onFocus={p.onFocusBarrier} />
         )}
-      </div>
+      </Fold>
     </aside>
   );
 }

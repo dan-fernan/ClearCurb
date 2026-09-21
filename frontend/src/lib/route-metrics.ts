@@ -32,7 +32,7 @@ const SOURCE: Record<BarrierKind, string> = {
   missing_ramp: "Pedestrian ramp survey",
   ramp_issue: "Pedestrian ramp survey",
   bad_sidewalk: "DOT sidewalk violations",
-  grade: "LiDAR DEM",
+  grade: "NYC elevation points",
 };
 
 const BLOCKED = "blocked: ";
