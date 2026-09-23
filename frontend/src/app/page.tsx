@@ -99,6 +99,10 @@ export default function Landing() {
         </Link>
       </header>
 
+      <p className="lp-disclaimer">
+        Coverage area: <strong>Lower Manhattan only</strong>, below about 14th St. Routes outside this area will not work yet.
+      </p>
+
       <main>
         <section className="lp-hero">
           <div className="lp-hero__copy">

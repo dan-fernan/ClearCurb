@@ -658,6 +658,10 @@ button.cc-mapchip[aria-pressed="true"] {
   font-size: 14px;
   max-width: 62ch;
 }
+.cc-statuscell .cc-hint {
+  font-size: 12px;
+  color: var(--ink-55);
+}
 .cc-statuscell button {
   flex: none;
   padding: 10px 16px;

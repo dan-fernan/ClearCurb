@@ -49,6 +49,20 @@
   background: var(--color-accent-600);
 }
 
+/* ── coverage disclaimer ────────────────────────────────────────────── */
+.lp-disclaimer {
+  margin: 0;
+  padding: 12px 40px;
+  border-bottom: var(--rule);
+  background: var(--color-accent-100);
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: 600;
+}
+.lp-disclaimer strong {
+  font-weight: 800;
+}
+
 /* ── buttons ────────────────────────────────────────────────────────── */
 .lp-btn {
   display: inline-flex;
@@ -354,6 +368,7 @@
   .lp-sources li {
     grid-template-columns: 1fr;
   }
+  .lp-disclaimer,
   .lp-section,
   .lp-final,
   .lp-footer {
