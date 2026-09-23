@@ -360,7 +360,12 @@ export default function MapView({
       <div ref={containerRef} className={`cc-map${placing ? " cc-map--picking" : ""}`} />
 
       <div className="cc-overlay cc-overlay--tl">
-        <span className="cc-mapchip">Lower Manhattan</span>
+        <span
+          className="cc-mapchip cc-mapchip--accent"
+          title="ClearCurb v1.0 only routes within Lower Manhattan, below about 14th St."
+        >
+          V1.0 · Lower Manhattan only
+        </span>
         {mode === "plan" && (
           <>
             <button type="button" className="cc-mapchip" aria-pressed={overlayOn} onClick={onToggleOverlay}>
