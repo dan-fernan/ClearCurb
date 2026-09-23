@@ -979,7 +979,9 @@ button.cc-mapchip[aria-pressed="true"] {
   right: 16px;
 }
 .cc-pickbar {
-  top: 16px;
+  /* Sits below the top-left/top-right overlay row (chips, zoom stack) instead of sharing its row,
+     so a wide chip row never overlaps it regardless of map width. */
+  top: 60px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
