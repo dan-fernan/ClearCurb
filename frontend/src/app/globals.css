@@ -971,6 +971,32 @@ button.cc-mapchip[aria-pressed="true"] {
     border-left: 0;
     border-top: var(--rule);
   }
+
+  /* Map overlays: the desktop layout has a wide map column to spread these across. On a phone-width
+     map, move the zoom stack to the empty bottom-right corner (the legend already owns bottom-left,
+     so this is the one open corner) instead of competing with the top-left chip row for space; that
+     row can then wrap freely with nothing to its right. The pick-a-point bar stays at the top, below
+     wherever the (now possibly multi-line) chip row ends, and is width-capped instead of a fixed
+     centered nowrap block so it can never run past the map's own edges. */
+  .cc-overlay--tr {
+    top: auto;
+    bottom: 16px;
+    right: 16px;
+  }
+  .cc-overlay--tl {
+    right: 16px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .cc-pickbar {
+    top: 120px;
+    left: 16px;
+    right: 16px;
+    transform: none;
+    flex-wrap: wrap;
+    white-space: normal;
+    gap: 8px;
+  }
 }
 
 /* ── map prompt bar + bottom-right zoom (report mode) ───────────────── */
