@@ -69,6 +69,7 @@ export default function ComparisonBand({ state, started, onStart, onRelax }: Pro
           <div>
             <h2>No accessible route</h2>
             <p>{state.message}</p>
+            <p className="cc-hint">Hint: routes are currently only supported in Lower Manhattan, below about 14th St.</p>
           </div>
           {state.canRelax && (
             <button type="button" onClick={onRelax}>
